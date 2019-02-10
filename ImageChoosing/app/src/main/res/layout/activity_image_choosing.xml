@@ -34,7 +34,8 @@
         android:text="Process"
         android:id="@+id/btnProcess"
         android:background="@color/colorAccent"
-        android:onClick="processImage"/>
+        android:onClick="processImage"
+        />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
