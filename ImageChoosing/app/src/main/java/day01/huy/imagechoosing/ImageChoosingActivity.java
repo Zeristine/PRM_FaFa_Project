@@ -41,6 +41,7 @@ public class ImageChoosingActivity extends AppCompatActivity {
     String imageURIString;
     private static final int PICK_IMAGE = 100;
     List<Face> celebs = new ArrayList<>();
+    List<Celebrity> faceList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class ImageChoosingActivity extends AppCompatActivity {
         imgView = findViewById(R.id.imgView);
         btn = findViewById(R.id.btnChoose);
         textView = findViewById(R.id.lblURI);
+        textResult = findViewById(R.id.txtResult);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +85,7 @@ public class ImageChoosingActivity extends AppCompatActivity {
 
 
     public void processImage(View view) {
+        Toast.makeText(this, "Your request is sending, please wait...", Toast.LENGTH_LONG).show();
        //textResult = findViewById(R.id.txtResult);
 
        //new Thread(new Runnable() {
@@ -116,8 +119,20 @@ public class ImageChoosingActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(ImageChoosingActivity.this, "Success!", Toast.LENGTH_SHORT).show();
+
                     celebs = response.body().getFaces();
+                    if(celebs.isEmpty()){
+                        Toast.makeText(ImageChoosingActivity.this, "No Face Found please try another one!", Toast.LENGTH_LONG).show();
+                    }else{
+                        textResult.setText("");
+                        Toast.makeText(ImageChoosingActivity.this, "Success!", Toast.LENGTH_SHORT).show();
+                        for (int i = 0; i <= celebs.size()-1; i++) {
+                            faceList = celebs.get(i).getCelebrity();
+                            textResult.append(faceList.get(0).getName()+",");
+                        }
+
+                    }
+
                 }
                 else {
                     Toast.makeText(ImageChoosingActivity.this, "Cant connect", Toast.LENGTH_SHORT).show();
