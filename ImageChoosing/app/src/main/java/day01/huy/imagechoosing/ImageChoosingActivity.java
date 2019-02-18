@@ -86,68 +86,75 @@ public class ImageChoosingActivity extends AppCompatActivity {
 
 
     public void processImage(View view) {
-        Toast.makeText(this, "Your request is being sent, please wait...", Toast.LENGTH_LONG).show();
 
-       //textResult = findViewById(R.id.txtResult);
+        if(imgURI == null){
+            Toast.makeText(this, "Please select an image first!", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, "Your request is being sent, please wait...", Toast.LENGTH_LONG).show();
 
-       //new Thread(new Runnable() {
-       //    ImageProcess imageProcess = new ImageProcess();
-       //    @Override
-       //    public void run() {
-       //        try {
-       //            textResult.setText(imageProcess.multipartRequest("https://api.sightengine.com/1.0/check.json",imageProcess.setParams(),imageURIString,"media",imageProcess.getMimeType(imageURIString)));
-       //        }catch (Exception e){
-       //            textResult.setText(e.getMessage());
-       //        }
-       //    }
-       //}){
-       //}.start();
+            //textResult = findViewById(R.id.txtResult);
 
-        String api_user = "947674538";
-        String api_sceret = "jwRJBvFs3zxGJa7jTXaH";
-        String models = "celebrities";
-        File file = new File(imageURIString);
-        RequestBody requestFile = RequestBody.create(MediaType.parse(getApplication().getContentResolver().getType(imgURI)), file);
-        MultipartBody.Part media = MultipartBody.Part.createFormData("media", file.getName(), requestFile);
+            //new Thread(new Runnable() {
+            //    ImageProcess imageProcess = new ImageProcess();
+            //    @Override
+            //    public void run() {
+            //        try {
+            //            textResult.setText(imageProcess.multipartRequest("https://api.sightengine.com/1.0/check.json",imageProcess.setParams(),imageURIString,"media",imageProcess.getMimeType(imageURIString)));
+            //        }catch (Exception e){
+            //            textResult.setText(e.getMessage());
+            //        }
+            //    }
+            //}){
+            //}.start();
 
-        RequestBody user = RequestBody.create(MultipartBody.FORM, api_user);
-        RequestBody secret = RequestBody.create(MultipartBody.FORM, api_sceret);
-        RequestBody model = RequestBody.create(MultipartBody.FORM, models);
+            String api_user = "947674538";
+            String api_sceret = "jwRJBvFs3zxGJa7jTXaH";
+            String models = "celebrities";
+            File file = new File(imageURIString);
+            RequestBody requestFile = RequestBody.create(MediaType.parse(getApplication().getContentResolver().getType(imgURI)), file);
+            MultipartBody.Part media = MultipartBody.Part.createFormData("media", file.getName(), requestFile);
+
+            RequestBody user = RequestBody.create(MultipartBody.FORM, api_user);
+            RequestBody secret = RequestBody.create(MultipartBody.FORM, api_sceret);
+            RequestBody model = RequestBody.create(MultipartBody.FORM, models);
 
 
-        CheckImageClient client = ApiController.checkImage();
+            CheckImageClient client = ApiController.checkImage();
 
-        Call<Result> call = client.upload(user, secret, model,media);
-        call.enqueue(new Callback<Result>() {
-            @Override
-            public void onResponse(Call<Result> call, Response<Result> response) {
-                if (response.isSuccessful()) {
+            Call<Result> call = client.upload(user, secret, model,media);
+            call.enqueue(new Callback<Result>() {
+                @Override
+                public void onResponse(Call<Result> call, Response<Result> response) {
+                    if (response.isSuccessful()) {
 
-                    celebs = response.body().getFaces();
-                    if(celebs.isEmpty()){
-                        Toast.makeText(ImageChoosingActivity.this, "No Face(s) Found please try another one!", Toast.LENGTH_LONG).show();
-                    }else{
-                        textResult.setText("Result:\n");
-                        Toast.makeText(ImageChoosingActivity.this, "Success!", Toast.LENGTH_SHORT).show();
-                        for (int i = 0; i <= celebs.size()-1; i++) {
-                            faceList = celebs.get(i).getCelebrity();
-                            textResult.append(" "+faceList.get(0).getName()+"\n");
+                        celebs = response.body().getFaces();
+                        if(celebs.isEmpty()){
+                            Toast.makeText(ImageChoosingActivity.this, "No Face(s) Found please try another one!", Toast.LENGTH_LONG).show();
+                        }else{
+                            textResult.setText("Result:\n");
+                            Toast.makeText(ImageChoosingActivity.this, "Success!", Toast.LENGTH_SHORT).show();
+                            for (int i = 0; i <= celebs.size()-1; i++) {
+                                faceList = celebs.get(i).getCelebrity();
+                                textResult.append(" "+faceList.get(0).getName()+"\n");
+                            }
+
                         }
 
                     }
-
+                    else {
+                        Toast.makeText(ImageChoosingActivity.this, "Cannot connect", Toast.LENGTH_SHORT).show();
+                    }
                 }
-                else {
-                    Toast.makeText(ImageChoosingActivity.this, "Cannot connect", Toast.LENGTH_SHORT).show();
+
+
+                @Override
+                public void onFailure(Call<Result> call, Throwable t) {
+                    Toast.makeText(ImageChoosingActivity.this, "Fails", Toast.LENGTH_SHORT).show();
                 }
-            }
+            });
+        }
 
 
-            @Override
-            public void onFailure(Call<Result> call, Throwable t) {
-                Toast.makeText(ImageChoosingActivity.this, "Fails", Toast.LENGTH_SHORT).show();
-            }
-        });
 
     }
 
