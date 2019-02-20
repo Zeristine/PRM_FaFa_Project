@@ -7,40 +7,48 @@
     tools:context=".ImageChoosingActivity"
     android:orientation="vertical">
 
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:id="@+id/imgView"
-        android:background="@color/colorAccent"
-        android:layout_marginBottom="10dp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Image URI will be displayed here"
-        android:id="@+id/lblURI"/>
-    <Button
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Choose Image"
-        android:id="@+id/btnChoose"
-        android:background="@color/colorAccent"
-        android:layout_marginBottom="10dp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:id="@+id/imgView"
+            android:background="@color/colorAccent"
+            android:layout_marginBottom="10dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="10"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Choose Image"
+                android:id="@+id/btnChoose"
+                android:background="@color/colorAccent"
+                android:layout_weight="4"
+                android:layout_marginRight="10dp"
+                />
 
-    <Button
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Process"
-        android:id="@+id/btnProcess"
-        android:background="@color/colorAccent"
-        android:onClick="processImage"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtResult"
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Process"
+                android:id="@+id/btnProcess"
+                android:background="@color/colorAccent"
+                android:onClick="processImage"
+                android:layout_weight="4"
+                android:layout_marginLeft="10dp"
+                />
+        </LinearLayout>
 
-        android:text="Result will be displayed here"/>
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/listResult"></ListView>
+    </LinearLayout>
 
 </LinearLayout>

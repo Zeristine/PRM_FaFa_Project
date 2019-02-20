@@ -3,16 +3,16 @@ package day01.huy.imagechoosing;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.style.ClickableSpan;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -24,7 +24,6 @@ import day01.huy.imagechoosing.Api.CheckImageClient;
 import day01.huy.imagechoosing.Models.Celebrity;
 import day01.huy.imagechoosing.Models.Face;
 import day01.huy.imagechoosing.Models.Result;
-import day01.huy.imagechoosing.fileProcess.ImageProcess;
 import day01.huy.imagechoosing.fileProcess.ReadPath;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -36,13 +35,15 @@ import retrofit2.Response;
 public class ImageChoosingActivity extends AppCompatActivity {
 
     ImageView imgView;
-    Button btn,btnProcess;
-    TextView textView,textResult;
+    Button btn;
     Uri imgURI;
     String imageURIString;
     private static final int PICK_IMAGE = 100;
     List<Face> celebs = new ArrayList<>();
     List<Celebrity> faceList = new ArrayList<>();
+    List<String> resultList = new ArrayList<>();
+
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +52,20 @@ public class ImageChoosingActivity extends AppCompatActivity {
 
         imgView = findViewById(R.id.imgView);
         btn = findViewById(R.id.btnChoose);
-        textView = findViewById(R.id.lblURI);
-        textResult = findViewById(R.id.txtResult);
+        listView = findViewById(R.id.listResult);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openGallery();
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(ImageChoosingActivity.this, InfoActivity.class);
+                intent.putExtra("name",resultList.get(position));
+                startActivity(intent);
             }
         });
     }
@@ -73,10 +81,17 @@ public class ImageChoosingActivity extends AppCompatActivity {
         if(resultCode == Activity.RESULT_OK && requestCode == PICK_IMAGE){
             imgURI = data.getData();
             imgView.setImageURI(data.getData());
-            textView.setText(imgURI.toString());
             imageURIString = ReadPath.getPath(this,imgURI);
-            textView.setText(imageURIString);
+        }
 
+    }
+    private void listProcess (){
+        if(!resultList.isEmpty()){
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,resultList);
+            listView.setAdapter(arrayAdapter);
+        }else{
+            ArrayAdapter<String> arrayAdapter = null;
+            listView.setAdapter(arrayAdapter);
         }
     }
 
@@ -92,26 +107,13 @@ public class ImageChoosingActivity extends AppCompatActivity {
         }else{
             Toast.makeText(this, "Your request is being sent, please wait...", Toast.LENGTH_LONG).show();
 
-            //textResult = findViewById(R.id.txtResult);
-
-            //new Thread(new Runnable() {
-            //    ImageProcess imageProcess = new ImageProcess();
-            //    @Override
-            //    public void run() {
-            //        try {
-            //            textResult.setText(imageProcess.multipartRequest("https://api.sightengine.com/1.0/check.json",imageProcess.setParams(),imageURIString,"media",imageProcess.getMimeType(imageURIString)));
-            //        }catch (Exception e){
-            //            textResult.setText(e.getMessage());
-            //        }
-            //    }
-            //}){
-            //}.start();
-
             String api_user = "947674538";
             String api_sceret = "jwRJBvFs3zxGJa7jTXaH";
             String models = "celebrities";
+
             File file = new File(imageURIString);
-            RequestBody requestFile = RequestBody.create(MediaType.parse(getApplication().getContentResolver().getType(imgURI)), file);
+
+            final RequestBody requestFile = RequestBody.create(MediaType.parse(getApplication().getContentResolver().getType(imgURI)), file);
             MultipartBody.Part media = MultipartBody.Part.createFormData("media", file.getName(), requestFile);
 
             RequestBody user = RequestBody.create(MultipartBody.FORM, api_user);
@@ -128,16 +130,19 @@ public class ImageChoosingActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
 
                         celebs = response.body().getFaces();
+
                         if(celebs.isEmpty()){
+                            resultList.clear();
                             Toast.makeText(ImageChoosingActivity.this, "No Face(s) Found please try another one!", Toast.LENGTH_LONG).show();
+                            listProcess();
                         }else{
-                            textResult.setText("Result:\n");
+                            resultList.clear();
                             Toast.makeText(ImageChoosingActivity.this, "Success!", Toast.LENGTH_SHORT).show();
                             for (int i = 0; i <= celebs.size()-1; i++) {
                                 faceList = celebs.get(i).getCelebrity();
-                                textResult.append(" "+faceList.get(0).getName()+"\n");
+                                resultList.add(faceList.get(0).getName());
                             }
-
+                            listProcess();
                         }
 
                     }
@@ -152,10 +157,8 @@ public class ImageChoosingActivity extends AppCompatActivity {
                     Toast.makeText(ImageChoosingActivity.this, "Fails", Toast.LENGTH_SHORT).show();
                 }
             });
+
         }
-
-
-
     }
 
 
