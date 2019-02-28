@@ -14,7 +14,7 @@ public class FetchCelebName extends AsyncTask<String,Void,String> {
     private WeakReference<TextView> nameText;
     private WeakReference<TextView> descText;
 
-    FetchCelebName(TextView nameText, TextView descText){
+    public FetchCelebName(TextView nameText, TextView descText){
         this.nameText = new WeakReference<>(nameText);
         this.descText = new WeakReference<>(descText);
     }
