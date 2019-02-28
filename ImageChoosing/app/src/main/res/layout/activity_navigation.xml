@@ -1,20 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".NavigationActivity"
     android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/colorAccent">
 
-    <ImageView
+    <LinearLayout
+        android:id="@+id/layoutTitle"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:id="@+id/imgView"
-        android:background="@color/colorAccent"
+        android:background="@color/white"
+        android:orientation="horizontal"
         android:layout_marginBottom="10dp"
-        />
+        android:weightSum="20">
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:visibility="invisible"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="fitStart"
+            android:layout_weight="16"
+            android:id="@+id/imgView"
+            />
+
+        <ImageButton
+            android:id="@+id/btnHistory"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:background="@color/colorPrimary"
+            android:layout_weight="2"/>
+
+    </LinearLayout>
+
 
     <Button
         android:layout_width="match_parent"
@@ -22,8 +49,11 @@
         android:text="use camera to detect celebrity"
         android:id="@+id/btnRearCamera"
         android:onClick="rearCamAct"
-        android:background="@color/colorAccent"
-        android:layout_marginBottom="3dp"/>
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"/>
 
     <Button
         android:layout_width="match_parent"
@@ -31,8 +61,11 @@
         android:text="choose an image from your gallery"
         android:id="@+id/btnChooseImage"
         android:onClick="chooseImgAct"
-        android:background="@color/colorAccent"
-        android:layout_marginBottom="3dp"/>
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"/>
 
     <Button
         android:layout_width="match_parent"
@@ -40,7 +73,10 @@
         android:text="what celebrity are you?"
         android:id="@+id/btnFrontCamera"
         android:onClick="frontCamAct"
-        android:background="@color/colorAccent"
-        android:layout_marginBottom="3dp"/>
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"/>
 
 </LinearLayout>
