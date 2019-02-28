@@ -3,15 +3,18 @@ package day01.huy.imagechoosing;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -34,15 +37,15 @@ import retrofit2.Response;
 
 public class ImageChoosingActivity extends AppCompatActivity {
 
-    ImageView imgView;
-    Button btn;
-    Uri imgURI;
-    String imageURIString;
     private static final int PICK_IMAGE = 100;
-    List<Face> celebs = new ArrayList<>();
-    List<Celebrity> faceList = new ArrayList<>();
-    List<String> resultList = new ArrayList<>();
-
+    private ImageView imgView;
+    private Button btn;
+    private Uri imgURI;
+    private String imageURIString;
+    private List<Face> celebs = new ArrayList<>();
+    private List<Celebrity> faceList = new ArrayList<>();
+    private List<String> resultList = new ArrayList<>();
+    private DisplayMetrics displayMetrics;
     private ListView listView;
 
     @Override
@@ -53,48 +56,56 @@ public class ImageChoosingActivity extends AppCompatActivity {
         imgView = findViewById(R.id.imgView);
         btn = findViewById(R.id.btnChoose);
         listView = findViewById(R.id.listResult);
+        displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
+        resizeView(imgView, 3,5);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openGallery();
+                resizeView(imgView, 3,5);
             }
         });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(ImageChoosingActivity.this, InfoActivity.class);
-                intent.putExtra("name",resultList.get(position));
+                intent.putExtra("name", resultList.get(position));
                 startActivity(intent);
             }
         });
     }
 
-    private void openGallery(){
+    private void openGallery() {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(gallery,PICK_IMAGE);
+        startActivityForResult(gallery, PICK_IMAGE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == Activity.RESULT_OK && requestCode == PICK_IMAGE){
+        if (resultCode == Activity.RESULT_OK && requestCode == PICK_IMAGE) {
             imgURI = data.getData();
             imgView.setImageURI(data.getData());
-            imageURIString = ReadPath.getPath(this,imgURI);
+            imageURIString = ReadPath.getPath(this, imgURI);
         }
 
     }
-    private void listProcess (){
-        if(!resultList.isEmpty()){
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,resultList);
-            listView.setAdapter(arrayAdapter);
-        }else{
-            ArrayAdapter<String> arrayAdapter = null;
-            listView.setAdapter(arrayAdapter);
+
+    private void listProcess() {
+        ArrayAdapter<String> arrayAdapter = null;
+        if (!resultList.isEmpty()) {
+            arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, resultList);
         }
+        listView.setAdapter(arrayAdapter);
     }
 
+    private void resizeView(View view, int x, int y){
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                (displayMetrics.heightPixels*x)/y);
+        view.setLayoutParams(layoutParams);
+    }
 
 
     //image process
@@ -102,9 +113,9 @@ public class ImageChoosingActivity extends AppCompatActivity {
 
     public void processImage(View view) {
 
-        if(imgURI == null){
+        if (imgURI == null) {
             Toast.makeText(this, "Please select an image first!", Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             Toast.makeText(this, "Your request is being sent, please wait...", Toast.LENGTH_LONG).show();
 
             String api_user = "947674538";
@@ -123,7 +134,7 @@ public class ImageChoosingActivity extends AppCompatActivity {
 
             CheckImageClient client = ApiController.checkImage();
 
-            Call<Result> call = client.upload(user, secret, model,media);
+            Call<Result> call = client.upload(user, secret, model, media);
             call.enqueue(new Callback<Result>() {
                 @Override
                 public void onResponse(Call<Result> call, Response<Result> response) {
@@ -131,22 +142,21 @@ public class ImageChoosingActivity extends AppCompatActivity {
 
                         celebs = response.body().getFaces();
 
-                        if(celebs.isEmpty()){
+                        if (celebs.isEmpty()) {
                             resultList.clear();
                             Toast.makeText(ImageChoosingActivity.this, "No Face(s) Found please try another one!", Toast.LENGTH_LONG).show();
                             listProcess();
-                        }else{
+                        } else {
                             resultList.clear();
                             Toast.makeText(ImageChoosingActivity.this, "Success!", Toast.LENGTH_SHORT).show();
-                            for (int i = 0; i <= celebs.size()-1; i++) {
+                            for (int i = 0; i <= celebs.size() - 1; i++) {
                                 faceList = celebs.get(i).getCelebrity();
                                 resultList.add(faceList.get(0).getName());
                             }
                             listProcess();
                         }
 
-                    }
-                    else {
+                    } else {
                         Toast.makeText(ImageChoosingActivity.this, "Cannot connect", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -158,6 +168,7 @@ public class ImageChoosingActivity extends AppCompatActivity {
                 }
             });
 
+            resizeView(imgView, 2,5);
         }
     }
 
