@@ -8,40 +8,55 @@
     android:orientation="vertical"
     >
 
+
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:id="@+id/imgView"
-        android:background="@color/colorAccent"
-        android:layout_marginBottom="10dp"
-        />
-
-    <Button
+        android:id="@+id/imgTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="use camera to detect celebrity"
-        android:id="@+id/btnRearCamera"
-        android:onClick="rearCamAct"
-        android:background="@color/colorAccent"
-        android:layout_marginBottom="3dp"/>
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:src="@drawable/fafa"/>
 
-    <Button
+    <EditText
+        android:id="@+id/txtUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="choose an image from your gallery"
-        android:id="@+id/btnChooseImage"
-        android:onClick="chooseImgAct"
-        android:background="@color/colorAccent"
-        android:layout_marginBottom="3dp"/>
-
-    <Button
+        android:inputType="text"
+        android:hint="Username"
+        android:gravity="center"
+        android:textSize="25dp"/>
+    <EditText
+        android:id="@+id/txtPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="what celebrity are you?"
-        android:id="@+id/btnFrontCamera"
-        android:onClick="frontCamAct"
-        android:background="@color/colorAccent"
-        android:layout_marginBottom="3dp"/>
+        android:inputType="textPassword"
+        android:hint="Password"
+        android:gravity="center"
+        android:textSize="25dp"/>
 
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        >
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sign up"
+            android:background="@color/colorPrimary"
+            android:layout_margin="5dp"
+            android:onClick="clickToSignUp"
+            />
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Log in"
+            android:background="@color/colorPrimary"
+            android:layout_margin="5dp"
+            android:onClick="clickToLogIn"
+            />
+    </LinearLayout>
 </LinearLayout>
