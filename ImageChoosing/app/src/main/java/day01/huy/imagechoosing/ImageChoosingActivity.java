@@ -64,6 +64,7 @@ public class ImageChoosingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openGallery();
+
                 resizeView(imgView, 3,5);
             }
         });
