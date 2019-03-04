@@ -7,16 +7,17 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
+import java.util.Iterator;
 
 public class FetchCelebName extends AsyncTask<String,Void,String> {
 
 
-    private WeakReference<TextView> nameText;
-    private WeakReference<TextView> descText;
+    private TextView nameText;
+    private TextView descText;
 
     public FetchCelebName(TextView nameText, TextView descText){
-        this.nameText = new WeakReference<>(nameText);
-        this.descText = new WeakReference<>(descText);
+        this.nameText = nameText;
+        this.descText = descText;
     }
 
     @Override
@@ -29,41 +30,34 @@ public class FetchCelebName extends AsyncTask<String,Void,String> {
         super.onPostExecute(s);
 
         try{
+            System.out.println("==================================result: " + s);
 
-            JSONObject jsonObject = new JSONObject(s);
-            JSONArray itemsArray = jsonObject.getJSONArray("query");
+            JSONObject rootJson = new JSONObject(s);
+            JSONObject query = rootJson.getJSONObject("query");
+            JSONObject pages = query.getJSONObject("pages");
+            Iterator<String> it = pages.keys();
 
             String name = null;
             String des = null;
-
-            if (name == null && des == null){
-
-                JSONArray page = itemsArray.getJSONArray(0);
-                JSONObject detail = page.getJSONObject(0);
-
-                try{
-
-                    name = detail.getString("title");
-                    des = detail.getString("extract");
-
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-
-
+            if(it.hasNext()){
+                String dynamicIdString = it.next();
+                JSONObject dynamicId = new JSONObject(pages.getJSONObject(dynamicIdString).toString());
+                name = dynamicId.getString("title");
+                des = dynamicId.getString("extract");
             }
 
+
             if(name != null && des != null){
-                nameText.get().setText(name);
-                descText.get().setText(des);
+                nameText.setText(name);
+                descText.setText(des);
             }else {
-                nameText.get().setText("No Result Found");
-                descText.get().setText("");
+                nameText.setText("No Resulttt Found");
+                descText.setText("");
             }
 
         }catch (Exception e){
-            nameText.get().setText("No Result Found");
-            descText.get().setText("");
+            nameText.setText("Noooo Result Found");
+            descText.setText("");
             e.printStackTrace();
         }
     }

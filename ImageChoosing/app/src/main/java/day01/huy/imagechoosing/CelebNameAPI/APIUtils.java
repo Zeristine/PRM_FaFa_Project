@@ -9,12 +9,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class APIUtils {
 
     private static final String LOG_TAG = APIUtils.class.getSimpleName();
 
     //Base URL
-    private static final String BASE_URL = "http://en.wikipedia.org/w/api.php?";
+    private static final String BASE_URL = "https://en.wikipedia.org/w/api.php?";
 
     //Param for Celeb name
     private static final String CELEB_NAME = "titles";
@@ -31,7 +33,7 @@ public class APIUtils {
 
     static String getCelebInfo(String queryString){
 
-        HttpURLConnection urlConnection= null;
+        HttpsURLConnection urlConnection= null;
         BufferedReader reader = null;
         String celebNameJSONString = "";
 
@@ -47,12 +49,13 @@ public class APIUtils {
                     appendQueryParameter(FORMAT,"json").build();
             // Convert URI to URL
             URL requestURL = new URL(builtURI.toString());
-
             //Open network connection
 
-            urlConnection = (HttpURLConnection) requestURL.openConnection();
+            urlConnection = (HttpsURLConnection) requestURL.openConnection();
             urlConnection.setRequestMethod("GET");
-            urlConnection.connect();
+//            urlConnection.connect();
+
+            System.out.println("code: "+urlConnection.getResponseCode());
 
             //Get the InputStream
             InputStream inputStream = urlConnection.getInputStream();
@@ -73,6 +76,7 @@ public class APIUtils {
                 // if you print out the completed buffer for debugging.
                 builder.append("\n");
             }
+            System.out.println("*********************"+builder.toString());
 
             if (builder.length() ==0){
                 return null;
