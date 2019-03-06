@@ -12,13 +12,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import day01.huy.imagechoosing.Models.Celebrity;
+import day01.huy.imagechoosing.Models.Cele;
 
 
 public class DBManager extends SQLiteOpenHelper {
     private Context mContext;
-    public static final String DATABASE_NAME ="celebrity_database";
-    public static final String CELEBRITY_TABLE_NAME ="celebrity_table";
+    public static final String DATABASE_NAME ="Cele_database";
+    public static final String Cele_TABLE_NAME ="Cele_table";
     public static final String HISTORY_TABLE_NAME ="history_table";
     public static final String ID ="id";
     public static final String NAME ="name";
@@ -30,7 +30,7 @@ public class DBManager extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sqlQuery = "CREATE TABLE \"celebrity_table\" (\n" +
+        String sqlQuery = "CREATE TABLE \"Cele_table\" (\n" +
                 "\t\"id\"\tINTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
                 "\t\"name\"\tINTEGER NOT NULL,\n" +
                 "\t\"description\"\tINTEGER\n" +
@@ -38,9 +38,9 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL(sqlQuery);
         sqlQuery = "CREATE TABLE \"history_table\" (\n" +
                 "\t\"id\"\tINTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
-                "\t\"celebrityId\"\tINTEGER NOT NULL,\n" +
+                "\t\"CeleId\"\tINTEGER NOT NULL,\n" +
                 "\t\"search_date\"\tTEXT NOT NULL,\n" +
-                "\tFOREIGN KEY(\"celebrityId\") REFERENCES \"celebrity_table\"(\"id\")\n" +
+                "\tFOREIGN KEY(\"CeleId\") REFERENCES \"Cele_table\"(\"id\")\n" +
                 ")";
         db.execSQL(sqlQuery);
         sqlQuery = "CREATE TABLE \"user_table\" (\n" +
@@ -56,44 +56,44 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
 
-    //celebrity table
-    public Celebrity getCelebrity(String name) {
-        Celebrity celebrity = null;
+    //Cele table
+    public Cele getCele(String name) {
+        Cele cele = null;
         SQLiteDatabase db = this.getReadableDatabase();
         /*
-        String query = "select * from celebrity_table where name = '"+name+"'";
+        String query = "select * from Cele_table where name = '"+name+"'";
         Cursor cursor = db.rawQuery(query, null);
         */
         String selection = "name = ?";
         String[] selectionArgs = new String[]{name};
-        Cursor cursor = db.query(CELEBRITY_TABLE_NAME, null, selection, selectionArgs, null, null, null);
+        Cursor cursor = db.query(Cele_TABLE_NAME, null, selection, selectionArgs, null, null, null);
         if (cursor.moveToFirst()) {
-            celebrity = new Celebrity();
-            celebrity.setId(cursor.getInt(0));
-            celebrity.setName(cursor.getString(1));
-            celebrity.setDescription(cursor.getString(2));
+            cele = new Cele();
+            cele.setId(cursor.getInt(0));
+            cele.setName(cursor.getString(1));
+            cele.setDescription(cursor.getString(2));
         }
         cursor.close();
         db.close();
-        return celebrity;
+        return cele;
     }
 
-    public List<Celebrity> getAllCelebrity() {
-        List<Celebrity> list = new ArrayList<>();
+    public List<Cele> getAllCele() {
+        List<Cele> list = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         /*
-        String selectQuery = "SELECT  * FROM " + CELEBRITY_TABLE_NAME;
+        String selectQuery = "SELECT  * FROM " + Cele_TABLE_NAME;
         Cursor cursor = db.rawQuery(selectQuery, null);
         */
-        Cursor cursor = db.query(CELEBRITY_TABLE_NAME, null, null, null, null, null, null);
+        Cursor cursor = db.query(Cele_TABLE_NAME, null, null, null, null, null, null);
 
         if (cursor.moveToFirst()) {
             do {
-                Celebrity celebrity = new Celebrity();
-                celebrity.setId(cursor.getInt(0));
-                celebrity.setName(cursor.getString(1));
-                celebrity.setDescription(cursor.getString(2));
-                list.add(celebrity);
+                Cele cele = new Cele();
+                cele.setId(cursor.getInt(0));
+                cele.setName(cursor.getString(1));
+                cele.setDescription(cursor.getString(2));
+                list.add(cele);
             } while (cursor.moveToNext());
         }
 
@@ -102,13 +102,13 @@ public class DBManager extends SQLiteOpenHelper {
         return list;
     }
 
-    public boolean addCelebrity(Celebrity celebrity){
+    public boolean addCele(Cele cele){
         boolean check= false;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(NAME, celebrity.getName());
-        values.put(DESCRIPTION, celebrity.getDescription());
-        check= db.insert(CELEBRITY_TABLE_NAME,null,values) >0;
+        values.put(NAME, cele.getName());
+        values.put(DESCRIPTION, cele.getDescription());
+        check= db.insert(Cele_TABLE_NAME,null,values) >0;
         db.close();
         return check;
     }
@@ -116,7 +116,7 @@ public class DBManager extends SQLiteOpenHelper {
     public List<String[]> getHistory() {
         List<String[]> list = new ArrayList<>();
         String[] str = new String[2];
-        String query = "select * from celebrity_table join history_table on celebrity_table.id = history_table.celebrityId ORDER by history_table.search_date DESC";
+        String query = "select * from Cele_table join history_table on Cele_table.id = history_table.CeleId ORDER by history_table.search_date DESC";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
@@ -133,15 +133,15 @@ public class DBManager extends SQLiteOpenHelper {
         return list;
     }
 
-    public boolean addHistory(Celebrity celebrity) {
-        int celebrityId = celebrity.getId();
+    public boolean addHistory(Cele cele) {
+        int celeId = cele.getId();
         //get current date
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         String today = dateFormat.format(date);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("celebrityId", celebrityId);
+        values.put("CeleId", celeId);
         values.put("search_date", today);
 
         boolean result = db.insert("history_table", null, values) > 0;

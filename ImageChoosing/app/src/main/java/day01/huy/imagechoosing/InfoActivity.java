@@ -11,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import day01.huy.imagechoosing.CelebNameAPI.FetchCelebName;
+import day01.huy.imagechoosing.Models.Cele;
+import day01.huy.imagechoosing.Models.Celebrity;
 
 public class InfoActivity extends AppCompatActivity {
 
@@ -26,19 +28,30 @@ public class InfoActivity extends AppCompatActivity {
         String queryString = intent.getExtras().get("name").toString();
         txtInfoView.setText(queryString);
 
-        ConnectivityManager connMgr = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = null;
-        if (connMgr != null) {
-            networkInfo = connMgr.getActiveNetworkInfo();
+        //get from db
+        DBManager dbManager = new DBManager(this);
+        Cele cele = dbManager.getCele(queryString);
+        if (cele == null) {
+            String name = cele.getName();
+            String description = cele.getDescription();
+            txtInfoView.setText(name);
+            txtDesView.setText(description);
+        } else { //cele is not in DB. Get cele from wikipedia
+            ConnectivityManager connMgr = (ConnectivityManager)
+                    getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = null;
+            if (connMgr != null) {
+                networkInfo = connMgr.getActiveNetworkInfo();
+            }
+
+            if (networkInfo != null && networkInfo.isConnected()) {
+                new FetchCelebName(txtInfoView, txtDesView).execute(queryString);
+                txtDesView.setText("Loading...");
+                txtInfoView.setText("Loading...");
+            } else {
+                Toast.makeText(this, "Please check your network connection and try again", Toast.LENGTH_LONG).show();
+            }
         }
 
-        if(networkInfo !=null && networkInfo.isConnected()){
-            new FetchCelebName(txtInfoView,txtDesView).execute(queryString);
-            txtDesView.setText("Loading...");
-            txtInfoView.setText("Loading...");
-        }else{
-            Toast.makeText(this, "Please check your network connection and try again", Toast.LENGTH_LONG).show();
-        }
     }
 }
