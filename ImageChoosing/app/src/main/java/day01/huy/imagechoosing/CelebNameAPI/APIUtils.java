@@ -6,7 +6,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -31,22 +30,22 @@ public class APIUtils {
     private static final String EXINTRO = "exintro";
     private static final String PLAINTEXT = "explaintext";
 
-    static String getCelebInfo(String queryString){
+    static String getCelebInfo(String queryString) {
 
-        HttpsURLConnection urlConnection= null;
+        HttpsURLConnection urlConnection = null;
         BufferedReader reader = null;
         String celebNameJSONString = "";
 
-        try{
+        try {
             //Build a full query string with required parameter to connect to API.
             Uri builtURI = Uri.parse(BASE_URL).buildUpon().
-                    appendQueryParameter(QUERY_ACTION,"query").
-                    appendQueryParameter(PROP_EXTRACT,"extracts").
-                    appendQueryParameter(REDIRECTS,"1").
-                    appendQueryParameter(CELEB_NAME,queryString).
-                    appendQueryParameter(EXINTRO,"").
-                    appendQueryParameter(PLAINTEXT,"").
-                    appendQueryParameter(FORMAT,"json").build();
+                    appendQueryParameter(QUERY_ACTION, "query").
+                    appendQueryParameter(PROP_EXTRACT, "extracts").
+                    appendQueryParameter(REDIRECTS, "1").
+                    appendQueryParameter(CELEB_NAME, queryString).
+                    appendQueryParameter(EXINTRO, "").
+                    appendQueryParameter(PLAINTEXT, "").
+                    appendQueryParameter(FORMAT, "json").build();
             // Convert URI to URL
             URL requestURL = new URL(builtURI.toString());
             //Open network connection
@@ -55,7 +54,7 @@ public class APIUtils {
             urlConnection.setRequestMethod("GET");
 //            urlConnection.connect();
 
-            System.out.println("code: "+urlConnection.getResponseCode());
+            System.out.println("code: " + urlConnection.getResponseCode());
 
             //Get the InputStream
             InputStream inputStream = urlConnection.getInputStream();
@@ -67,7 +66,7 @@ public class APIUtils {
             StringBuilder builder = new StringBuilder();
 
             String line;
-            while ((line = reader.readLine())!=null){
+            while ((line = reader.readLine()) != null) {
                 // Add the current line to the string.
                 builder.append(line);
 
@@ -76,17 +75,17 @@ public class APIUtils {
                 // if you print out the completed buffer for debugging.
                 builder.append("\n");
             }
-            System.out.println("*********************"+builder.toString());
+            System.out.println("*********************" + builder.toString());
 
-            if (builder.length() ==0){
+            if (builder.length() == 0) {
                 return null;
             }
 
             celebNameJSONString = builder.toString();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }

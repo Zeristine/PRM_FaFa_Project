@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class ImageProcess extends AsyncTask<Object,String,String> {
+public class ImageProcess extends AsyncTask<Object, String, String> {
 
     public String multipartRequest(String urlTo, Map<String, String> parmas, String filepath, String filefield, String fileMimeType) throws Exception {
         HttpURLConnection connection = null;
@@ -135,13 +135,14 @@ public class ImageProcess extends AsyncTask<Object,String,String> {
     //setup params
 
 
-    public Map<String,String> setParams() {
+    public Map<String, String> setParams() {
         Map<String, String> params = new HashMap<String, String>(3);
         params.put("api_user", "947674538");
         params.put("api_secret", "jwRJBvFs3zxGJa7jTXaH");
         params.put("model", "celebrities");
         return params;
     }
+
     String result;
 
     {

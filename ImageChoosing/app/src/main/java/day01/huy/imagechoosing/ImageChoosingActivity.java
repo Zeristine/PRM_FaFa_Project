@@ -59,13 +59,13 @@ public class ImageChoosingActivity extends AppCompatActivity {
         displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        resizeView(imgView, 3,5);
+        resizeView(imgView, 3, 5);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openGallery();
 
-                resizeView(imgView, 3,5);
+                resizeView(imgView, 3, 5);
             }
         });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -102,9 +102,9 @@ public class ImageChoosingActivity extends AppCompatActivity {
         listView.setAdapter(arrayAdapter);
     }
 
-    private void resizeView(View view, int x, int y){
+    private void resizeView(View view, int x, int y) {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                (displayMetrics.heightPixels*x)/y);
+                (displayMetrics.heightPixels * x) / y);
         view.setLayoutParams(layoutParams);
     }
 
@@ -169,7 +169,7 @@ public class ImageChoosingActivity extends AppCompatActivity {
                 }
             });
 
-            resizeView(imgView, 2,5);
+            resizeView(imgView, 2, 5);
         }
     }
 

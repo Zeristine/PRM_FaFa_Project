@@ -3,19 +3,17 @@ package day01.huy.imagechoosing.CelebNameAPI;
 import android.os.AsyncTask;
 import android.widget.TextView;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.lang.ref.WeakReference;
 import java.util.Iterator;
 
-public class FetchCelebName extends AsyncTask<String,Void,String> {
+public class FetchCelebName extends AsyncTask<String, Void, String> {
 
 
     private TextView nameText;
     private TextView descText;
 
-    public FetchCelebName(TextView nameText, TextView descText){
+    public FetchCelebName(TextView nameText, TextView descText) {
         this.nameText = nameText;
         this.descText = descText;
     }
@@ -26,10 +24,10 @@ public class FetchCelebName extends AsyncTask<String,Void,String> {
     }
 
     @Override
-    protected void onPostExecute(String s){
+    protected void onPostExecute(String s) {
         super.onPostExecute(s);
 
-        try{
+        try {
             System.out.println("==================================result: " + s);
 
             JSONObject rootJson = new JSONObject(s);
@@ -39,7 +37,7 @@ public class FetchCelebName extends AsyncTask<String,Void,String> {
 
             String name = null;
             String des = null;
-            if(it.hasNext()){
+            if (it.hasNext()) {
                 String dynamicIdString = it.next();
                 JSONObject dynamicId = new JSONObject(pages.getJSONObject(dynamicIdString).toString());
                 name = dynamicId.getString("title");
@@ -47,15 +45,15 @@ public class FetchCelebName extends AsyncTask<String,Void,String> {
             }
 
 
-            if(name != null && des != null){
+            if (name != null && des != null) {
                 nameText.setText(name);
                 descText.setText(des);
-            }else {
+            } else {
                 nameText.setText("No Resulttt Found");
                 descText.setText("");
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             nameText.setText("Noooo Result Found");
             descText.setText("");
             e.printStackTrace();
