@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
         LinearLayout.LayoutParams imageLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                (displayMetrics.heightPixels*3)/5);
+                (displayMetrics.heightPixels * 3) / 5);
         imgTitle.setLayoutParams(imageLayoutParams);
     }
 
@@ -41,12 +41,12 @@ public class MainActivity extends AppCompatActivity {
         String username = txtUsername.getText().toString();
         String password = txtPassword.getText().toString();
 
-        if(!username.isEmpty() && !password.isEmpty()){
+        if (!username.isEmpty() && !password.isEmpty()) {
             //Do the check Login here
             //
             Intent intent = new Intent(this, NavigationActivity.class);
             startActivity(intent);
-        }else{
+        } else {
             Toast.makeText(this, "Please fill your username and password", Toast.LENGTH_SHORT).show();
         }
     }

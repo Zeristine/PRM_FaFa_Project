@@ -4,19 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.inputmethod.InputMethodManager;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import day01.huy.imagechoosing.CelebNameAPI.FetchCelebName;
 import day01.huy.imagechoosing.Models.Cele;
-import day01.huy.imagechoosing.Models.Celebrity;
 
 public class InfoActivity extends AppCompatActivity {
 
-    private TextView txtInfoView,txtDesView;
+    private TextView txtInfoView, txtDesView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

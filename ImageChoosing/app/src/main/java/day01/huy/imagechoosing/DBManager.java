@@ -17,17 +17,18 @@ import day01.huy.imagechoosing.Models.Cele;
 
 public class DBManager extends SQLiteOpenHelper {
     private Context mContext;
-    public static final String DATABASE_NAME ="Cele_database";
-    public static final String Cele_TABLE_NAME ="Cele_table";
-    public static final String HISTORY_TABLE_NAME ="history_table";
-    public static final String ID ="id";
-    public static final String NAME ="name";
-    public static final String DESCRIPTION ="description";
+    public static final String DATABASE_NAME = "Cele_database";
+    public static final String Cele_TABLE_NAME = "Cele_table";
+    public static final String HISTORY_TABLE_NAME = "history_table";
+    public static final String ID = "id";
+    public static final String NAME = "name";
+    public static final String DESCRIPTION = "description";
 
-    public DBManager(Context context){
+    public DBManager(Context context) {
         super(context, DATABASE_NAME, null, 1);
-        this.mContext= context;
+        this.mContext = context;
     }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         String sqlQuery = "CREATE TABLE \"Cele_table\" (\n" +
@@ -50,6 +51,7 @@ public class DBManager extends SQLiteOpenHelper {
                 ")";
         db.execSQL(sqlQuery);
     }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
@@ -102,16 +104,17 @@ public class DBManager extends SQLiteOpenHelper {
         return list;
     }
 
-    public boolean addCele(Cele cele){
-        boolean check= false;
+    public boolean addCele(Cele cele) {
+        boolean check = false;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(NAME, cele.getName());
         values.put(DESCRIPTION, cele.getDescription());
-        check= db.insert(Cele_TABLE_NAME,null,values) >0;
+        check = db.insert(Cele_TABLE_NAME, null, values) > 0;
         db.close();
         return check;
     }
+
     //history table
     public List<String[]> getHistory() {
         List<String[]> list = new ArrayList<>();
@@ -148,6 +151,7 @@ public class DBManager extends SQLiteOpenHelper {
         db.close();
         return result;
     }
+
     //login table
     public boolean checkLogin(String username, String password) {
 //        String query = "select * from user_table where username = bbb and password = bbb";
