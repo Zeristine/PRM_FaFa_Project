@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clickToSignUp(View view) {
+        Intent intent = new Intent(this,RegisterActivity.class);
+        startActivity(intent);
     }
 
     public void clickToLogIn(View view) {
@@ -44,8 +46,15 @@ public class MainActivity extends AppCompatActivity {
         if (!username.isEmpty() && !password.isEmpty()) {
             //Do the check Login here
             //
-            Intent intent = new Intent(this, NavigationActivity.class);
-            startActivity(intent);
+            DBManager db = new DBManager(this);
+            
+            if(db.checkLogin(username,password)){
+                Intent intent = new Intent(this, NavigationActivity.class);
+                startActivity(intent);
+            }else{
+                Toast.makeText(this, "Wrong username or password!", Toast.LENGTH_SHORT).show();
+            }
+            
         } else {
             Toast.makeText(this, "Please fill your username and password", Toast.LENGTH_SHORT).show();
         }

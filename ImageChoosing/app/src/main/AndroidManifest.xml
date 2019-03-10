@@ -14,9 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_fafa"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
-        >
-        <activity android:name=".HistoryActivity"></activity>
+        android:usesCleartextTraffic="true">
+        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".HistoryActivity" />
         <activity android:name=".NavigationActivity" />
         <activity android:name=".InfoActivity" />
         <activity android:name=".MainActivity">
