@@ -13,6 +13,9 @@ public class HistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_history);
         DBManager db = new DBManager(this);
         List<String[]> historyList = db.getHistory();
+        if(!historyList.isEmpty()){
+
+        }
 
     }
 }
