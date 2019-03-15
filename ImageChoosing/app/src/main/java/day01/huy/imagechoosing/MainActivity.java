@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private DisplayMetrics displayMetrics;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     private static final int WRITE_EXTERNAL_REQ_CODE = 10;
+    private Button btnToRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,14 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout.LayoutParams imageLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 (displayMetrics.heightPixels * 3) / 5);
         imgTitle.setLayoutParams(imageLayoutParams);
+        btnToRegister = findViewById(R.id.btnToRegister);
+        btnToRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -82,10 +92,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void clickToSignUp(View view) {
-        Intent intent = new Intent(MainActivity.this,RegisterActivity.class);
-        startActivity(intent);
-    }
+
 
     public void clickToLogIn(View view) {
         String username = txtUsername.getText().toString();

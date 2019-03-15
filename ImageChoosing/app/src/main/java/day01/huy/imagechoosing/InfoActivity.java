@@ -6,11 +6,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import day01.huy.imagechoosing.CelebNameAPI.FetchCelebName;
 import day01.huy.imagechoosing.Models.Cele;
+import day01.huy.imagechoosing.fileProcess.ImageProcess;
 
 public class InfoActivity extends AppCompatActivity {
 
@@ -44,6 +46,7 @@ public class InfoActivity extends AppCompatActivity {
             }
 
             if (networkInfo != null && networkInfo.isConnected()) {
+                new ImageProcess((ImageView) findViewById(R.id.celebImage)).execute(queryString);
                 new FetchCelebName(txtInfoView, txtDesView).execute(queryString);
                 txtDesView.setText("Loading...");
                 txtInfoView.setText("Loading...");
