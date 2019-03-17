@@ -51,7 +51,7 @@
             android:textColor="@color/white"
             android:background="@color/colorPrimary"
             android:layout_margin="5dp"
-            android:onClick="clickToSignUp"
+            android:id="@+id/btnToRegister"
             />
         <Button
             android:layout_width="0dp"

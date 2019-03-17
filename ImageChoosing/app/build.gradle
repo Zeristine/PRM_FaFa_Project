@@ -19,6 +19,12 @@ android {
 }
 
 dependencies {
+
+    annotationProcessor 'com.microsoft.azure:azure-annotations:1.2.0'
+    //
+    implementation 'com.microsoft.azure.cognitiveservices:azure-cognitiveservices-imagesearch:1.0.1'
+    //
+
     //Retrofit 2
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     //Json parsing
