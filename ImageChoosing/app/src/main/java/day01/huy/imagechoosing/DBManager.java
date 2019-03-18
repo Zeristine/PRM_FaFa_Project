@@ -111,6 +111,7 @@ public class DBManager extends SQLiteOpenHelper {
         values.put(NAME, cele.getName());
         values.put(DESCRIPTION, cele.getDescription());
         check = db.insert(Cele_TABLE_NAME, null, values) > 0;
+
         db.close();
         return check;
     }

@@ -8,12 +8,14 @@ import android.widget.Toast;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText txtUsername = findViewById(R.id.username);
-    private EditText txtPassword = findViewById(R.id.password);
+    private EditText txtUsername;
+    private EditText txtPassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        txtUsername = findViewById(R.id.username);
+        txtPassword = findViewById(R.id.password);
     }
 
     public void clickToBack(View view) {
@@ -21,8 +23,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void clickToRegister(View view) {
-        String username = txtUsername.toString();
-        String password = txtPassword.toString();
+        String username = txtUsername.getText().toString().trim();
+        String password = txtPassword.getText().toString().trim();
         DBManager db = new DBManager(this);
         try{
             if(db.registed(username,password)){

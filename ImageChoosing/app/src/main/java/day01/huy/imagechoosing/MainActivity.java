@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
             if(db.checkLogin(username,password)){
                 Intent intent = new Intent(this, NavigationActivity.class);
                 startActivity(intent);
+                finish();
             }else{
                 Toast.makeText(this, "Wrong username or password!", Toast.LENGTH_SHORT).show();
             }

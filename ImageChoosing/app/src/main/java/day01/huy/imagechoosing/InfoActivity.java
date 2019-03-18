@@ -32,7 +32,7 @@ public class InfoActivity extends AppCompatActivity {
         //get from db
         DBManager dbManager = new DBManager(this);
         Cele cele = dbManager.getCele(queryString);
-        if (cele == null) {
+        if (cele != null) {
             String name = cele.getName();
             String description = cele.getDescription();
             txtInfoView.setText(name);
