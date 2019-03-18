@@ -48,12 +48,12 @@
         android:layout_height="wrap_content"
         android:text="use camera to detect celebrity"
         android:id="@+id/btnRearCamera"
-        android:onClick="rearCamAct"
+        android:onClick="launchCamera"
         android:background="@color/colorPrimary"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"/>
+        android:layout_marginBottom="5dp" />
 
     <Button
         android:layout_width="match_parent"
