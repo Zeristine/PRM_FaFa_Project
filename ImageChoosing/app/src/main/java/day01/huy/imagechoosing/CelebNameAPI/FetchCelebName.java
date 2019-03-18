@@ -7,15 +7,20 @@ import org.json.JSONObject;
 
 import java.util.Iterator;
 
+import day01.huy.imagechoosing.fileProcess.InfoGetter;
+
 public class FetchCelebName extends AsyncTask<String, Void, String> {
 
 
     private TextView nameText;
     private TextView descText;
+    private String imgUrl;
+    public InterfaceFetchCelebResponse infoActivity;
 
-    public FetchCelebName(TextView nameText, TextView descText) {
+    public FetchCelebName(TextView nameText, TextView descText, String imgUrl) {
         this.nameText = nameText;
         this.descText = descText;
+        this.imgUrl = imgUrl;
     }
 
     @Override
@@ -48,6 +53,11 @@ public class FetchCelebName extends AsyncTask<String, Void, String> {
             if (name != null && des != null) {
                 nameText.setText(name);
                 descText.setText(des);
+                FetchCelebResponse fcr = new FetchCelebResponse(name, des, this.imgUrl);
+                infoActivity.onFetchCelebResponse(fcr);
+//                InfoGetter infoGetter = new InfoGetter();
+//                infoGetter.setDescription(des);
+//                infoGetter.setName(name);
             } else {
                 nameText.setText("No Resulttt Found");
                 descText.setText("");

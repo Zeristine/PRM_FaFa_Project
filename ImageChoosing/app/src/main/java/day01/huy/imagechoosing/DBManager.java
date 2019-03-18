@@ -23,6 +23,7 @@ public class DBManager extends SQLiteOpenHelper {
     public static final String ID = "id";
     public static final String NAME = "name";
     public static final String DESCRIPTION = "description";
+    public static final String URL = "imgurl";
 
     public DBManager(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -33,8 +34,9 @@ public class DBManager extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String sqlQuery = "CREATE TABLE \"Cele_table\" (\n" +
                 "\t\"id\"\tINTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
-                "\t\"name\"\tINTEGER NOT NULL,\n" +
-                "\t\"description\"\tINTEGER\n" +
+                "\t\"name\"\tTEXT NOT NULL,\n" +
+                "\t\"description\"\tTEXT,\n" +
+                "\t\"imgurl\"\tTEXT\n" +
                 ")";
         db.execSQL(sqlQuery);
         sqlQuery = "CREATE TABLE \"history_table\" (\n" +
@@ -74,6 +76,7 @@ public class DBManager extends SQLiteOpenHelper {
             cele.setId(cursor.getInt(0));
             cele.setName(cursor.getString(1));
             cele.setDescription(cursor.getString(2));
+            cele.setUrl(cursor.getString(3));
         }
         cursor.close();
         db.close();
@@ -95,6 +98,7 @@ public class DBManager extends SQLiteOpenHelper {
                 cele.setId(cursor.getInt(0));
                 cele.setName(cursor.getString(1));
                 cele.setDescription(cursor.getString(2));
+                cele.setUrl(cursor.getString(3));
                 list.add(cele);
             } while (cursor.moveToNext());
         }
@@ -110,6 +114,7 @@ public class DBManager extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(NAME, cele.getName());
         values.put(DESCRIPTION, cele.getDescription());
+        values.put(URL,cele.getUrl());
         check = db.insert(Cele_TABLE_NAME, null, values) > 0;
 
         db.close();
