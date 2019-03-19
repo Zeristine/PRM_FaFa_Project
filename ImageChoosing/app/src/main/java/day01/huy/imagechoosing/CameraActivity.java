@@ -175,6 +175,7 @@ public class CameraActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         // get an image from the camera
                         mCamera.takePicture(null, null, mPicture);
+                        getImageUri();
                     }
                 }
         );
