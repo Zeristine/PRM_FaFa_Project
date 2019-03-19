@@ -150,7 +150,7 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
                 File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
-                Uri picUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+                Uri picUri = Uri.fromFile(pictureFile);
                 if (pictureFile == null){
                     return;
                 }
@@ -164,7 +164,10 @@ public class CameraActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     Log.d("MyCameraApp", "error");
                 }
+                getImageUri(picUri);
             }
+
+
 
         };
 
@@ -175,18 +178,15 @@ public class CameraActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         // get an image from the camera
                         mCamera.takePicture(null, null, mPicture);
-                        getImageUri();
                     }
                 }
         );
-
-
     }
 
 
-    public void getImageUri(){
+    public void getImageUri(Uri picUri){
         Intent intent = new Intent(CameraActivity.this, ImageReceiveActivity.class);
-        intent.putExtra("picUri", getOutputMediaFileUri(MEDIA_TYPE_IMAGE));
+        intent.putExtra("picUri", picUri);
         startActivity(intent);
     }
 
