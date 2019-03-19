@@ -2,13 +2,20 @@ package day01.huy.imagechoosing.Models;
 
 public class Cele {
     int id;
+
     String name;
     String description;
+    String url;
 
-    public Cele(String name, String description) {
+    public Cele(String name, String description,String url) {
         this.name = name;
         this.description = description;
+        this.url = url;
     }
+
+    public String getUrl() { return url; }
+
+    public void setUrl(String url) { this.url = url; }
 
     public Cele() {
     }

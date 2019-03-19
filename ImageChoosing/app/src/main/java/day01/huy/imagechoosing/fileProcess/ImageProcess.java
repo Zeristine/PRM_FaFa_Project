@@ -11,11 +11,14 @@ import com.microsoft.azure.cognitiveservices.search.imagesearch.models.ImageObje
 import com.microsoft.azure.cognitiveservices.search.imagesearch.models.ImagesModel;
 
 import java.io.InputStream;
+import java.util.function.Consumer;
 
 public class ImageProcess extends AsyncTask<String, Void, Bitmap>{
     ImageView bmImage;
     BingImageSearchAPI client;
     final String subKey = "40985fb2f22f430d8468b729052a148e";
+
+    public Consumer<String> callback;
 
     public  ImageProcess(ImageView bmImage) {
         this.bmImage = bmImage;
@@ -30,6 +33,9 @@ public class ImageProcess extends AsyncTask<String, Void, Bitmap>{
                 .withMarket("en-us")
                 .execute();
         String imgUrl = imageResults.value().get(0).thumbnailUrl();
+        callback.accept(imgUrl);
+        ImageGetter imageGetter = new ImageGetter();
+        imageGetter.setImageURL(imgUrl);
         try {
 
             InputStream in = new java.net.URL(imgUrl).openStream();
