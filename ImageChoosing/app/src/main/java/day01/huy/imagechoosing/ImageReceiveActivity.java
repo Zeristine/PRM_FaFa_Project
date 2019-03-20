@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.net.URI;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,13 +31,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ImageReceiveActivity extends AppCompatActivity {
+ public class ImageReceiveActivity extends AppCompatActivity {
 
     private ListView listView;
     private ImageView imageView;
-    private List<String> resultList;
+    private List<String> resultList = new ArrayList<>();
     private List<Face> celebs = new ArrayList<>();
     private List<Celebrity> faceList = new ArrayList<>();
+    private Button btnAnalyze;
+    private String realPath;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +49,8 @@ public class ImageReceiveActivity extends AppCompatActivity {
         Uri imageURI = (Uri) intent.getExtras().get("picUri");
         imageView = findViewById(R.id.imageView);
         imageView.setImageURI(imageURI);
-        String realpath = ReadPath.getPath(this,imageURI);
-        imageProcess(realpath,imageURI);
+        realPath = ReadPath.getPath(this,imageURI);
+        imageProcess(imageURI);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -58,7 +62,7 @@ public class ImageReceiveActivity extends AppCompatActivity {
 
     }
 
-    private void imageProcess(String realpath, Uri imgURI){
+    private void imageProcess( Uri imgURI){
         if (imgURI == null) {
             Toast.makeText(this, "Please select an image first!", Toast.LENGTH_SHORT).show();
         } else {
@@ -68,9 +72,10 @@ public class ImageReceiveActivity extends AppCompatActivity {
             String api_sceret = "jwRJBvFs3zxGJa7jTXaH";
             String models = "celebrities";
 
-            File file = new File(realpath);
+            File file = new File(realPath);
 
-            final RequestBody requestFile = RequestBody.create(MediaType.parse(getApplication().getContentResolver().getType(imgURI)), file);
+            String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+            final RequestBody requestFile = RequestBody.create(MediaType.parse(mimeType), file);
             MultipartBody.Part media = MultipartBody.Part.createFormData("media", file.getName(), requestFile);
 
             RequestBody user = RequestBody.create(MultipartBody.FORM, api_user);
@@ -123,4 +128,6 @@ public class ImageReceiveActivity extends AppCompatActivity {
         }
         listView.setAdapter(arrayAdapter);
     }
+
+
 }

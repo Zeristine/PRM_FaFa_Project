@@ -124,6 +124,8 @@ public class ImageChoosingActivity extends AppCompatActivity {
             String models = "celebrities";
 
             File file = new File(imageURIString);
+            System.out.println("RealpathI: "+imageURIString);
+            System.out.println("FileI: "+file);
 
             final RequestBody requestFile = RequestBody.create(MediaType.parse(getApplication().getContentResolver().getType(imgURI)), file);
             MultipartBody.Part media = MultipartBody.Part.createFormData("media", file.getName(), requestFile);
