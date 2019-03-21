@@ -18,5 +18,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/listViewHistory"></ListView>
+    <TextView
+        android:id="@+id/txtEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="No history to show"
+        android:textSize="20sp"
+        android:visibility="invisible"/>
 
 </LinearLayout>
