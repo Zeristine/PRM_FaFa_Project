@@ -132,20 +132,19 @@ public class CameraFrontActivity extends AppCompatActivity {
     public static Camera getCameraInstance(){
         Camera cam = null;
         try {
-//            int cameraCount = 0;
-//            Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
-//            cameraCount = Camera.getNumberOfCameras();
-//            for (int camIdx = 0; camIdx < cameraCount; camIdx++) {
-//                Camera.getCameraInfo(camIdx, cameraInfo);
-//                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-//                    try {
-//                        cam = Camera.open(camIdx);
-//                    } catch (RuntimeException e) {
-//                        Log.e("", "Camera failed to open: " + e.getLocalizedMessage());
-//                    }
-//                }
-//            }
-        cam = Camera.open(1);
+            int cameraCount = 0;
+            Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+            cameraCount = Camera.getNumberOfCameras();
+            for (int camIdx = 0; camIdx < cameraCount; camIdx++) {
+                Camera.getCameraInfo(camIdx, cameraInfo);
+                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+                    try {
+                        cam = Camera.open(camIdx);
+                    } catch (RuntimeException e) {
+                        Log.e("", "Camera failed to open: " + e.getLocalizedMessage());
+                    }
+                }
+            }
         }
         catch (Exception e){
             // Camera is not available (in use or does not exist)
@@ -158,6 +157,17 @@ public class CameraFrontActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void releaseCamera(){
+        if (mCamera != null){
+            mCamera.release();// release the camera for other applications
+            mCamera = null;
+        }
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        releaseCamera();
+    }
 }
 

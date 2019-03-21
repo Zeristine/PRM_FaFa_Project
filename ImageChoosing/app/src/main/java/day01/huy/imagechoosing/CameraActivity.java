@@ -51,6 +51,9 @@ class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
 
     public void surfaceDestroyed(SurfaceHolder holder) {
         // empty. Take care of releasing the Camera preview in your activity.
+        mCamera.stopPreview();
+        mCamera.release();
+        mCamera = null;
     }
 
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
@@ -136,13 +139,14 @@ public class CameraActivity extends AppCompatActivity {
 
 
         mCamera = getCameraInstance();
-        mCamera.setDisplayOrientation(0);
+        mCamera.setDisplayOrientation(90);
 
         // Create our Preview view and set it as the content of our activity.
         mPreview = new CameraPreview(this, mCamera);
         mPreview.setRotation(0);
         FrameLayout preview = findViewById(R.id.camera_preview);
         preview.addView(mPreview);
+
 
         final Camera.PictureCallback mPicture = new Camera.PictureCallback() {
             @Override
@@ -210,8 +214,20 @@ public class CameraActivity extends AppCompatActivity {
         return c; // returns null if camera is unavailable
     }
 
+    private void releaseCamera(){
+        if (mCamera != null){
+            mCamera.release();// release the camera for other applications
+            mCamera = null;
+        }
+    }
 
-//    Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+    @Override
+    protected void onPause() {
+        super.onPause();
+        releaseCamera();
+    }
+
+    //    Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
 //    cameraCount = Camera.getNumberOfCameras();
 //            for (int camIdx = 0; camIdx < cameraCount; camIdx++) {
 //        Camera.getCameraInfo(camIdx, cameraInfo);
