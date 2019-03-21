@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 import day01.huy.imagechoosing.Models.Cele;
+import day01.huy.imagechoosing.Models.HistoryDTO;
 
 
 public class DBManager extends SQLiteOpenHelper {
@@ -122,19 +123,20 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
     //history table
-    public List<String[]> getHistory() {
-        List<String[]> list = new ArrayList<>();
-        String[] str = new String[2];
-        String query = "select * from Cele_table join history_table on Cele_table.id = history_table.CeleId ORDER by history_table.search_date DESC";
+    public List<HistoryDTO> getHistory() {
+        List<HistoryDTO> list = new ArrayList<>();
+
+        String query = "select Cele_table.name, history_table.search_date from Cele_table join history_table on Cele_table.id = history_table.CeleId ORDER by history_table.search_date DESC";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
+
                 //get name
-                str[0] = cursor.getString(1);
+                String name = cursor.getString(0);
                 //get search_date
-                str[1] = cursor.getString(5);
-                list.add(str);
+                String search_date = cursor.getString(1);
+                list.add(new HistoryDTO(name,search_date));
             } while (cursor.moveToNext());
         }
         cursor.close();
