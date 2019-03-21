@@ -136,10 +136,11 @@ public class CameraActivity extends AppCompatActivity {
 
 
         mCamera = getCameraInstance();
+        mCamera.setDisplayOrientation(0);
 
         // Create our Preview view and set it as the content of our activity.
         mPreview = new CameraPreview(this, mCamera);
-        mPreview.setRotation(360);
+        mPreview.setRotation(0);
         FrameLayout preview = findViewById(R.id.camera_preview);
         preview.addView(mPreview);
 
@@ -178,7 +179,14 @@ public class CameraActivity extends AppCompatActivity {
                     }
                 }
         );
-
+        Button changCamera = findViewById(R.id.changeCameraFront);
+        changCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CameraActivity.this,CameraFrontActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -202,10 +210,6 @@ public class CameraActivity extends AppCompatActivity {
         return c; // returns null if camera is unavailable
     }
 
-    public void changeCameraFront(View view) {
-        Intent intent = new Intent(CameraActivity.this,CameraFrontActivity.class);
-        startActivity(intent);
-    }
 
 //    Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
 //    cameraCount = Camera.getNumberOfCameras();

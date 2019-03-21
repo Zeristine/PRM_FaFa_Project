@@ -19,9 +19,9 @@
         android:layout_gravity="center"
         />
     <Button
+        android:id="@+id/changeCameraFront"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Change Camera"
-        android:onClick="changeCameraFront"/>
+        android:text="Change Camera" />
 </LinearLayout>
