@@ -1,7 +1,10 @@
 package day01.huy.imagechoosing;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Matrix;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -47,6 +50,16 @@ import retrofit2.Response;
         Intent intent = getIntent();
         listView = findViewById(R.id.rearCamListView);
         Uri imageURI = (Uri) intent.getExtras().get("picUri");
+        //--- change image orientation
+        String[] orientationColumn = {MediaStore.Images.Media.ORIENTATION};
+        Cursor cur = managedQuery(imageURI, orientationColumn, null, null, null);
+        int orientation = -1;
+        if (cur != null && cur.moveToFirst()) {
+            orientation = cur.getInt(cur.getColumnIndex(orientationColumn[0]));
+        }
+        Matrix matrix = new Matrix();
+        matrix.postRotate(orientation);
+        //--------------
         imageView = findViewById(R.id.imageView);
         imageView.setImageURI(imageURI);
         realPath = ReadPath.getPath(this,imageURI);
