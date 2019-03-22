@@ -2,7 +2,11 @@ package day01.huy.imagechoosing;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.hardware.Camera;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -15,7 +19,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -158,14 +164,53 @@ public class CameraActivity extends AppCompatActivity {
                 }
 
                 try {
-                    FileOutputStream fos = new FileOutputStream(pictureFile);
-                    fos.write(data);
-                    fos.close();
+                    byte[] pictureBytes;
+                    Bitmap thePicture = BitmapFactory.decodeByteArray(data, 0, data.length);
+                    Matrix m = new Matrix();
+                    m.postRotate(90);
+                    thePicture = Bitmap.createBitmap(thePicture, 0, 0, thePicture.getWidth(), thePicture.getHeight(), m, true);
+
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    thePicture.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                    pictureBytes = bos.toByteArray();
+
+                    FileOutputStream fs = new FileOutputStream(pictureFile);
+                    fs.write(pictureBytes);
+                    fs.close();
                 } catch (FileNotFoundException e) {
                     Log.d("MyCameraApp", "file not found");
                 } catch (IOException e) {
                     Log.d("MyCameraApp", "error");
                 }
+
+//                try {
+//                    ExifInterface exif = new ExifInterface(pictureFile.getPath());
+//                    int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+//
+//                    int angle = 0;
+//
+//                    if (orientation == ExifInterface.ORIENTATION_ROTATE_90) {
+//                        angle = 90;
+//                    }
+//                    else if (orientation == ExifInterface.ORIENTATION_ROTATE_180) {
+//                        angle = 180;
+//                    }
+//                    else if (orientation == ExifInterface.ORIENTATION_ROTATE_270) {
+//                        angle = 270;
+//                    }
+//
+//                    Matrix mat = new Matrix();
+//                    mat.postRotate(angle);
+//
+//                    Bitmap bmp = BitmapFactory.decodeStream(new FileInputStream(pictureFile), null, null);
+//                    Bitmap correctBmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), mat, true);
+//                }
+//                catch (IOException e) {
+//                    Log.w("TAG", "-- Error in setting image");
+//                }
+//                catch(OutOfMemoryError oom) {
+//                    Log.w("TAG", "-- OOM Error in setting image");
+//                }
                 getImageUri(picUri);
             }
 
