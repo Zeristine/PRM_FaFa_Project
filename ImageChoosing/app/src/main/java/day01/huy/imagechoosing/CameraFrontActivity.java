@@ -1,6 +1,9 @@
 package day01.huy.imagechoosing;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -91,9 +95,19 @@ public class CameraFrontActivity extends AppCompatActivity {
                 }
 
                 try {
-                    FileOutputStream fos = new FileOutputStream(pictureFile);
-                    fos.write(data);
-                    fos.close();
+                    byte[] pictureBytes;
+                    Bitmap thePicture = BitmapFactory.decodeByteArray(data, 0, data.length);
+                    Matrix m = new Matrix();
+                    m.postRotate(90);
+                    thePicture = Bitmap.createBitmap(thePicture, 0, 0, thePicture.getWidth(), thePicture.getHeight(), m, true);
+
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    thePicture.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                    pictureBytes = bos.toByteArray();
+
+                    FileOutputStream fs = new FileOutputStream(pictureFile);
+                    fs.write(pictureBytes);
+                    fs.close();
                 } catch (FileNotFoundException e) {
                     Log.d("MyCameraApp", "file not found");
                 } catch (IOException e) {
