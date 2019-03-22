@@ -199,6 +199,7 @@ public class CameraActivity extends AppCompatActivity {
         Intent intent = new Intent(CameraActivity.this, ImageReceiveActivity.class);
         intent.putExtra("picUri", picUri);
         startActivity(intent);
+        finish();
     }
 
 
@@ -214,18 +215,19 @@ public class CameraActivity extends AppCompatActivity {
         return c; // returns null if camera is unavailable
     }
 
-//    private void releaseCamera(){
-//        if (mCamera != null){
-//            mCamera.release();// release the camera for other applications
-//            mCamera = null;
-//        }
-//    }
-//
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        releaseCamera();
-//    }
+    private void releaseCamera(){
+        if (mCamera != null){
+            mCamera.release();// release the camera for other applications
+            mCamera = null;
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        releaseCamera();
+    }
+
 
     //    Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
 //    cameraCount = Camera.getNumberOfCameras();
