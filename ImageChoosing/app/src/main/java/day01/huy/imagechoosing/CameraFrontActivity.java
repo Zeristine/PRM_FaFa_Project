@@ -139,8 +139,8 @@ public class CameraFrontActivity extends AppCompatActivity {
         Intent intent = new Intent(CameraFrontActivity.this, ImageReceiveActivity.class);
         intent.putExtra("picUri", picUri);
         startActivity(intent);
+        finish();
     }
-
 
 
     public static Camera getCameraInstance(){
@@ -169,6 +169,7 @@ public class CameraFrontActivity extends AppCompatActivity {
     public void changeCameraBack(View view) {
         Intent intent = new Intent(CameraFrontActivity.this,CameraActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void releaseCamera(){
