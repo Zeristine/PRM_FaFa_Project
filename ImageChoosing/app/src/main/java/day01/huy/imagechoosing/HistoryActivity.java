@@ -10,11 +10,14 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import day01.huy.imagechoosing.Models.HistoryDTO;
+import day01.huy.imagechoosing.Models.HistoryList;
 
 public class HistoryActivity extends AppCompatActivity {
 
@@ -26,10 +29,13 @@ public class HistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_history);
         showList = findViewById(R.id.listViewHistory);
         emptyAnnounce = findViewById(R.id.txtEmpty);
-        DBManager db = new DBManager(this);
-        List<HistoryDTO> historyList = db.getHistory();
-        List<Map<String,String>> data = new ArrayList<Map<String,String>>();
 
+
+        //get List and reverse
+        List<HistoryDTO> historyList = HistoryList.getList();
+        Collections.reverse(historyList);
+
+        List<Map<String,String>> data = new ArrayList<Map<String,String>>();
         if(historyList.isEmpty()){
             showList.setVisibility(View.GONE);
             emptyAnnounce.setVisibility(View.VISIBLE);
@@ -47,6 +53,8 @@ public class HistoryActivity extends AppCompatActivity {
                     new String[] {"1", "2" },
                     new int[] {android.R.id.text1, android.R.id.text2 });
             showList.setAdapter(adapter);
+
+            //list item onClick
             showList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

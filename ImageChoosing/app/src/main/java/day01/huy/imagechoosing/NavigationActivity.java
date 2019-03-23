@@ -10,6 +10,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import java.util.List;
+
+import day01.huy.imagechoosing.Models.HistoryDTO;
+import day01.huy.imagechoosing.Models.HistoryList;
+
 public class NavigationActivity extends AppCompatActivity {
 
     private ImageView imgView;
@@ -25,6 +30,12 @@ public class NavigationActivity extends AppCompatActivity {
         imgView.setImageResource(R.drawable.fafa);
         layoutTitle = findViewById(R.id.layoutTitle);
         btnHistory = findViewById(R.id.btnHistory);
+
+        DBManager db = new DBManager(this);
+        List<HistoryDTO> list = HistoryList.getList();
+        list = db.getHistory();
+        HistoryList.setList(list);
+
         displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
@@ -39,10 +50,6 @@ public class NavigationActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    public void rearCamAct(View view) {
-
     }
 
     public void chooseImgAct(View view) {

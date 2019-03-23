@@ -126,7 +126,7 @@ public class DBManager extends SQLiteOpenHelper {
     public List<HistoryDTO> getHistory() {
         List<HistoryDTO> list = new ArrayList<>();
 
-        String query = "select Cele_table.name, history_table.search_date from Cele_table join history_table on Cele_table.id = history_table.CeleId ORDER by history_table.search_date DESC";
+        String query = "select Cele_table.name, history_table.search_date from Cele_table join history_table on Cele_table.id = history_table.CeleId";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {

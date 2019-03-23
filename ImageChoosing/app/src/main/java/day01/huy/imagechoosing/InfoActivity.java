@@ -14,11 +14,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import day01.huy.imagechoosing.CelebNameAPI.FetchCelebName;
 import day01.huy.imagechoosing.CelebNameAPI.FetchCelebResponse;
 import day01.huy.imagechoosing.CelebNameAPI.InterfaceFetchCelebResponse;
 import day01.huy.imagechoosing.Models.Cele;
+import day01.huy.imagechoosing.Models.HistoryDTO;
+import day01.huy.imagechoosing.Models.HistoryList;
 import day01.huy.imagechoosing.fileProcess.ImageProcess;
 import day01.huy.imagechoosing.fileProcess.ImageProcessWithDB;
 
@@ -35,7 +41,7 @@ public class InfoActivity extends AppCompatActivity implements InterfaceFetchCel
         txtDesView = findViewById(R.id.txtDesView);
 
         Intent intent = getIntent();
-        String queryString = intent.getExtras().get("name").toString();
+        String queryString = (String) intent.getExtras().get("name");
         txtInfoView.setText(queryString);
 
         //get from db
@@ -48,7 +54,17 @@ public class InfoActivity extends AppCompatActivity implements InterfaceFetchCel
             txtInfoView.setText(name);
             txtDesView.setText(description);
             new ImageProcessWithDB((ImageView) findViewById(R.id.celebImage)).execute(url);
+            //add to History
             dbManager.addHistory(cele);
+            //get add to List
+            HistoryDTO dto;
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date();
+            String today = simpleDateFormat.format(date);
+            dto = new HistoryDTO(name,today);
+            List<HistoryDTO> list = HistoryList.getList();
+            list.add(dto);
+            HistoryList.setList(list);
         } else { //cele is not in DB. Get cele from wikipedia
             ConnectivityManager connMgr = (ConnectivityManager)
                     getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -97,6 +113,14 @@ public class InfoActivity extends AppCompatActivity implements InterfaceFetchCel
                 Toast.makeText(this, "Cannot add to DB", Toast.LENGTH_SHORT).show();
             }
             db.addHistory(cele);
+            HistoryDTO dto;
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date();
+            String today = simpleDateFormat.format(date);
+            dto = new HistoryDTO(fcr.getName(),today);
+            List<HistoryDTO> list = HistoryList.getList();
+            list.add(dto);
+            HistoryList.setList(list);
         }
     }
 }

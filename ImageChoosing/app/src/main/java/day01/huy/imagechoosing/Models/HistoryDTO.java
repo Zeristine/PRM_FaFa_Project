@@ -1,10 +1,12 @@
 package day01.huy.imagechoosing.Models;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class HistoryDTO implements Serializable {
     private String name;
     private String search_date;
+    private List<HistoryDTO> list;
 
     public HistoryDTO(String name, String search_date) {
         this.name = name;
@@ -12,6 +14,18 @@ public class HistoryDTO implements Serializable {
     }
 
     public HistoryDTO() {
+    }
+
+    public HistoryDTO(List<HistoryDTO> list) {
+        this.list = list;
+    }
+
+    public List<HistoryDTO> getList() {
+        return list;
+    }
+
+    public void setList(List<HistoryDTO> list) {
+        this.list = list;
     }
 
     public String getName() {
