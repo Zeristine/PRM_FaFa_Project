@@ -28,9 +28,7 @@ public class HistoryActivity extends AppCompatActivity {
         emptyAnnounce = findViewById(R.id.txtEmpty);
         DBManager db = new DBManager(this);
         List<HistoryDTO> historyList = db.getHistory();
-        String[] inside;
         List<Map<String,String>> data = new ArrayList<Map<String,String>>();
-        Map<String, String> datum = new HashMap<String, String>();
 
         if(historyList.isEmpty()){
             showList.setVisibility(View.GONE);
@@ -39,6 +37,7 @@ public class HistoryActivity extends AppCompatActivity {
             emptyAnnounce.setVisibility(View.GONE);
             showList.setVisibility(View.VISIBLE);
             for (int i = 0; i < historyList.size(); i++) {
+                Map<String, String> datum = new HashMap<String, String>();
                 datum.put("1",historyList.get(i).getName());
                 datum.put("2",historyList.get(i).getSearch_date());
                 data.add(datum);
