@@ -97,7 +97,7 @@ public class CameraFrontActivity extends AppCompatActivity {
                     byte[] pictureBytes;
                     Bitmap thePicture = BitmapFactory.decodeByteArray(data, 0, data.length);
                     Matrix m = new Matrix();
-                    m.postRotate(90);
+                    m.postRotate(270);
                     thePicture = Bitmap.createBitmap(thePicture, 0, 0, thePicture.getWidth(), thePicture.getHeight(), m, true);
 
                     ByteArrayOutputStream bos = new ByteArrayOutputStream();

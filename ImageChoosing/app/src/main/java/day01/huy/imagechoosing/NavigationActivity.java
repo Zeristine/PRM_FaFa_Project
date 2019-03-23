@@ -56,7 +56,7 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     public void frontCamAct(View view) {
-        Intent intent = new Intent(this,CameraActivity.class);
+        Intent intent = new Intent(this,CameraFrontActivity.class);
         startActivity(intent);
     }
 }
