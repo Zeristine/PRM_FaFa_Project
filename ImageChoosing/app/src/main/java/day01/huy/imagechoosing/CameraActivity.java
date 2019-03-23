@@ -27,6 +27,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 
 /** A basic Camera preview class */
@@ -49,6 +50,7 @@ class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder) {
         // The Surface has been created, now tell the camera where to draw the preview.
         try {
+            holder.setFixedSize(960,1280);
             mCamera.setPreviewDisplay(holder);
             mCamera.startPreview();
         } catch (IOException e) {
@@ -149,7 +151,6 @@ public class CameraActivity extends AppCompatActivity {
 
         // Create our Preview view and set it as the content of our activity.
         mPreview = new CameraPreview(this, mCamera);
-        mPreview.setRotation(90);
         FrameLayout preview = findViewById(R.id.camera_preview);
         preview.addView(mPreview);
 

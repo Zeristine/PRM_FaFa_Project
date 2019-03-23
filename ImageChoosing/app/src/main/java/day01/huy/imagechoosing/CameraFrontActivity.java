@@ -81,7 +81,6 @@ public class CameraFrontActivity extends AppCompatActivity {
 
         // Create our Preview view and set it as the content of our activity.
         mPreview = new CameraPreview(this, mCamera);
-        mPreview.setRotation(90);
         FrameLayout preview = findViewById(R.id.camera_front_preview);
         preview.addView(mPreview);
 
