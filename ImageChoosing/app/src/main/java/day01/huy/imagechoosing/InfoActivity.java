@@ -81,14 +81,22 @@ public class InfoActivity extends AppCompatActivity implements InterfaceFetchCel
     // TODO: insert to DB
         DBManager db = new DBManager(this);
         Cele cele = new Cele();
-        cele.setUrl(fcr.getImgUrl());
-        cele.setDescription(fcr.getDes());
-        cele.setName(fcr.getName());
-        if(db.addCele(cele)){
-            Toast.makeText(this, "This search is provided by Wikipedia and Bing Image Search, data has been added to DB.", Toast.LENGTH_SHORT).show();
+
+        if(fcr.getDes().contains("may refer to:")){
+            Intent intent = new Intent(this, WebViewActivity.class);
+            intent.putExtra("name",fcr.getName());
+            startActivity(intent);
+            finish();
         }else{
-            Toast.makeText(this, "Cannot add to DB", Toast.LENGTH_SHORT).show();
+            cele.setUrl(fcr.getImgUrl());
+            cele.setDescription(fcr.getDes());
+            cele.setName(fcr.getName());
+            if(db.addCele(cele)){
+                Toast.makeText(this, "This search is provided by Wikipedia and Bing Image Search, data has been added to DB.", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this, "Cannot add to DB", Toast.LENGTH_SHORT).show();
+            }
+            db.addHistory(cele);
         }
-        db.addHistory(cele);
     }
 }
