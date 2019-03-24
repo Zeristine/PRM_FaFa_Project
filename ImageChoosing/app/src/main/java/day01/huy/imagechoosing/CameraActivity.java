@@ -229,15 +229,15 @@ public class CameraActivity extends AppCompatActivity {
                     }
                 }
         );
-        Button changCamera = findViewById(R.id.changeCameraFront);
-        changCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CameraActivity.this,CameraFrontActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+//        Button changCamera = findViewById(R.id.changeCameraFront);
+//        changCamera.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(CameraActivity.this,CameraFrontActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
     }
 
 

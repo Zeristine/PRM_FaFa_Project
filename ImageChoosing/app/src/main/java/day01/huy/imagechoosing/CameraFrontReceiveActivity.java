@@ -1,22 +1,17 @@
 package day01.huy.imagechoosing;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Matrix;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.CellIdentity;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.net.URI;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,38 +29,40 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
- public class ImageReceiveActivity extends AppCompatActivity {
+public class CameraFrontReceiveActivity extends AppCompatActivity {
 
-    private ListView listView;
     private ImageView imageView;
+    private Button moreInfo, analyzeFront;
+    private TextView txtName, txtPercent;
+    private String realPath;
     private List<String> resultList = new ArrayList<>();
     private List<Face> celebs = new ArrayList<>();
     private List<Celebrity> faceList = new ArrayList<>();
-    private Button btnAnalyze;
-    private String realPath;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image_receive);
-        Intent intent = getIntent();
-        listView = findViewById(R.id.rearCamListView);
-        Uri imageURI = (Uri) intent.getExtras().get("picUri");
+        setContentView(R.layout.activity_camera_front_receive);
         imageView = findViewById(R.id.imageView);
+        moreInfo = findViewById(R.id.btnMoreInfo);
+        analyzeFront = findViewById(R.id.btnAnalyzeFront);
+        txtName = findViewById(R.id.txtName);
+        txtPercent = findViewById(R.id.txtPercent);
+        Intent intent = getIntent();
+        Uri imageURI = (Uri) intent.getExtras().get("picUri");
         imageView.setImageURI(imageURI);
         realPath = ReadPath.getPath(this,imageURI);
-        btnAnalyze =findViewById(R.id.btnAnalyze);
-        btnAnalyze.setOnClickListener(new View.OnClickListener() {
+        imageProcess(imageURI);
+        analyzeFront.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 imageProcess(imageURI);
             }
         });
-        imageProcess(imageURI);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        moreInfo.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(ImageReceiveActivity.this, InfoActivity.class);
-                intent.putExtra("name", resultList.get(position));
+            public void onClick(View v) {
+                Intent intent = new Intent(CameraFrontReceiveActivity.this,InfoActivity.class);
+                intent.putExtra("name",txtName.getText().toString());
                 startActivity(intent);
             }
         });
@@ -105,39 +102,41 @@ import retrofit2.Response;
 
                         if (celebs.isEmpty()) {
                             resultList.clear();
-                            Toast.makeText(ImageReceiveActivity.this, "No Face(s) Found please try another one!", Toast.LENGTH_LONG).show();
-                            listProcess();
+                            Toast.makeText(CameraFrontReceiveActivity.this, "No Face(s) Found please try another one!", Toast.LENGTH_LONG).show();
+//                            listProcess();
                         } else {
-                            resultList.clear();
-                            Toast.makeText(ImageReceiveActivity.this, "Success!", Toast.LENGTH_SHORT).show();
-                            for (int i = 0; i <= celebs.size() - 1; i++) {
-                                faceList = celebs.get(i).getCelebrity();
-                                resultList.add(faceList.get(0).getName());
+                            if(celebs.size()>1){
+                                Toast.makeText(CameraFrontReceiveActivity.this, "Look it's more than one face", Toast.LENGTH_SHORT).show();
+                            }else{
+
+                                faceList = celebs.get(0).getCelebrity();
+                                String name = faceList.get(0).getName();
+                                double prob = faceList.get(0).getProb();
+                                txtName.setText(name);
+                                txtPercent.setText(prob*100+"%");
+                                moreInfo.setVisibility(View.VISIBLE);
+                                Toast.makeText(CameraFrontReceiveActivity.this, "Success", Toast.LENGTH_SHORT).show();
                             }
-                            listProcess();
+//                            resultList.clear();
+//                            Toast.makeText(CameraFrontReceiveActivity.this, "Success!", Toast.LENGTH_SHORT).show();
+//                            for (int i = 0; i <= celebs.size() - 1; i++) {
+//                                faceList = celebs.get(i).getCelebrity();
+//                                resultList.add(faceList.get(0).getName());
+//                            }
+//                            listProcess();
                         }
 
                     } else {
-                        Toast.makeText(ImageReceiveActivity.this, "Cannot connect", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CameraFrontReceiveActivity.this, "Cannot connect", Toast.LENGTH_SHORT).show();
                     }
                 }
 
 
                 @Override
                 public void onFailure(Call<Result> call, Throwable t) {
-                    Toast.makeText(ImageReceiveActivity.this, "Fails", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CameraFrontReceiveActivity.this, "Fails", Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
-
-    private void listProcess() {
-        ArrayAdapter<String> arrayAdapter = null;
-        if (!resultList.isEmpty()) {
-            arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, resultList);
-        }
-        listView.setAdapter(arrayAdapter);
-    }
-
-
 }

@@ -135,7 +135,7 @@ public class CameraFrontActivity extends AppCompatActivity {
 
 
     public void getImageUri(Uri picUri){
-        Intent intent = new Intent(CameraFrontActivity.this, ImageReceiveActivity.class);
+        Intent intent = new Intent(CameraFrontActivity.this, CameraFrontReceiveActivity.class);
         intent.putExtra("picUri", picUri);
         startActivity(intent);
         finish();
@@ -165,11 +165,7 @@ public class CameraFrontActivity extends AppCompatActivity {
         return cam; // returns null if camera is unavailable
     }
 
-    public void changeCameraBack(View view) {
-        Intent intent = new Intent(CameraFrontActivity.this,CameraActivity.class);
-        startActivity(intent);
-        finish();
-    }
+
 
     private void releaseCamera(){
         if (mCamera != null){
