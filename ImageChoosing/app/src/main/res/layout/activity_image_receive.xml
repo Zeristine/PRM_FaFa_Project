@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ImageReceiveActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ImageReceiveActivity">
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="300sp"
-        android:id="@+id/imageView"/>
+        android:layout_height="300sp" />
+
     <Button
+        android:id="@+id/btnAnalyze"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25sp"
+        android:background="@drawable/shape_button"
         android:text="Analyze"
-        android:id="@+id/btnAnalyze"/>
+        android:textColor="@color/white" />
+
     <ListView
         android:id="@+id/rearCamListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ListView>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

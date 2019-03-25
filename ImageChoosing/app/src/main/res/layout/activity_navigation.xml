@@ -3,80 +3,86 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NavigationActivity"
+    android:background="@color/colorAccent"
     android:orientation="vertical"
-    android:background="@color/colorAccent">
+    tools:context=".NavigationActivity">
 
     <LinearLayout
         android:id="@+id/layoutTitle"
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        android:layout_marginBottom="10dp"
         android:background="@color/white"
         android:orientation="horizontal"
-        android:layout_marginBottom="10dp"
         android:weightSum="20">
 
         <ImageButton
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
 
         <ImageView
+            android:id="@+id/imgView"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:scaleType="fitStart"
             android:layout_weight="16"
-            android:id="@+id/imgView"
-            />
+            android:adjustViewBounds="true"
+            android:scaleType="fitStart" />
 
         <ImageButton
             android:id="@+id/btnHistory"
             android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_weight="2"
             android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:background="@color/colorPrimary"
-            android:layout_weight="2"/>
+            android:background="@drawable/shape_button_circle"
+            android:scaleType="fitCenter" />
 
     </LinearLayout>
 
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="use camera to detect celebrity"
         android:id="@+id/btnRearCamera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25sp"
+        android:layout_marginVertical="5sp"
+        android:background="@drawable/shape_button"
         android:onClick="launchCamera"
-        android:background="@color/colorPrimary"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp" />
+        android:text="use camera to detect celebrity"
+        android:textColor="@color/white" />
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="choose an image from your gallery"
         android:id="@+id/btnChooseImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25sp"
+        android:layout_marginVertical="5sp"
+        android:background="@drawable/shape_button"
         android:onClick="chooseImgAct"
-        android:background="@color/colorPrimary"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"/>
+        android:text="choose an image from your gallery"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/btnFrontCamera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25sp"
+        android:layout_marginVertical="5sp"
+        android:background="@drawable/shape_button"
+        android:onClick="frontCamAct"
+        android:text="what celebrity are you?"
+        android:textColor="@color/white" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="what celebrity are you?"
-        android:id="@+id/btnFrontCamera"
-        android:onClick="frontCamAct"
-        android:background="@color/colorPrimary"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"/>
+        android:layout_marginHorizontal="25sp"
+        android:layout_marginVertical="5sp"
+        android:background="@drawable/shape_button"
+        android:onClick="clickToLogout"
+        android:text="Log ouy"
+        android:textColor="@color/white" />
 
 </LinearLayout>

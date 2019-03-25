@@ -155,7 +155,7 @@ public class DBManager extends SQLiteOpenHelper {
         values.put("CeleId", celeId);
         values.put("search_date", today);
 
-        boolean result = db.insert("history_table", null, values) > 0;
+        boolean result = db.insert(HISTORY_TABLE_NAME, null, values) > 0;
         db.close();
         return result;
     }

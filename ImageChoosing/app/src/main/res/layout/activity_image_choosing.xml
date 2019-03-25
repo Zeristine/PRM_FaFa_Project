@@ -31,8 +31,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:layout_weight="4"
-                android:background="@color/colorAccent"
-                android:text="Choose Image" />
+                android:background="@drawable/shape_button"
+                android:text="Choose Image"
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/btnProcess"
@@ -40,15 +41,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="4"
-                android:background="@color/colorAccent"
+                android:background="@drawable/shape_button"
                 android:onClick="processImage"
-                android:text="Process" />
+                android:text="Process"
+                android:textColor="@color/white" />
         </LinearLayout>
 
         <ListView
             android:id="@+id/listResult"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></ListView>
+            android:layout_height="match_parent" />
     </LinearLayout>
 
 </LinearLayout>

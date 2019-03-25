@@ -1,49 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".RegisterActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="200sp"
+        android:gravity="center"
         android:text="REGISTER"
-        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
         android:textSize="30sp"
-        android:gravity="center"
-        android:layout_marginTop="200sp"/>
+        android:textStyle="bold" />
+
     <EditText
+        android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="30sp"
+        android:layout_marginRight="30sp"
+        android:gravity="center"
         android:hint="Enter username"
-        android:gravity="center"
-        android:layout_marginRight="30sp"
-        android:layout_marginLeft="30sp"
-        android:id="@+id/username"/>
+        android:textColor="@color/black" />
+
     <EditText
+        android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter password"
-        android:gravity="center"
-        android:layout_marginRight="30sp"
         android:layout_marginLeft="30sp"
-        android:id="@+id/password"/>
+        android:layout_marginRight="30sp"
+        android:gravity="center"
+        android:hint="Enter password"
+        android:textColor="@color/black" />
+
     <Button
-        android:layout_marginTop="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register"
+        android:layout_marginHorizontal="30sp"
+        android:layout_marginTop="20sp"
+        android:background="@drawable/shape_button"
         android:onClick="clickToRegister"
-        android:background="@color/colorAccent"/>
+        android:text="Register"
+        android:textColor="@color/white" />
+
     <Button
-        android:layout_marginTop="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Back to login"
+        android:layout_marginHorizontal="30sp"
+        android:layout_marginTop="20sp"
+        android:background="@drawable/shape_button"
         android:onClick="clickToBack"
-        android:background="@color/colorAccent"/>
+        android:text="Back to login"
+        android:textColor="@color/white" />
 
 </LinearLayout>

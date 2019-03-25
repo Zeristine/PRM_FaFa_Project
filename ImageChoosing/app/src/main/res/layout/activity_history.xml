@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HistoryActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".HistoryActivity">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="History"
+        android:textColor="@color/colorPrimary"
         android:textSize="30sp"
-        android:textStyle="bold"
-        android:gravity="center"/>
+        android:textStyle="bold" />
 
     <ListView
+        android:id="@+id/listViewHistory"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/listViewHistory"></ListView>
+        android:layout_height="wrap_content"></ListView>
+
     <TextView
         android:id="@+id/txtEmpty"
         android:layout_width="match_parent"
@@ -25,6 +27,6 @@
         android:gravity="center"
         android:text="No history to show"
         android:textSize="20sp"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
 
 </LinearLayout>
