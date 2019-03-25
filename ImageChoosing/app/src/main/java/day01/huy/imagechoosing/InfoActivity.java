@@ -97,8 +97,7 @@ public class InfoActivity extends AppCompatActivity implements InterfaceFetchCel
     // TODO: insert to DB
         DBManager db = new DBManager(this);
         Cele cele = new Cele();
-
-        if(fcr.getDes().contains("may refer to:")){
+        if(fcr.getDes().contains("may refer to:") || fcr.getDes().contains("also refer to:")){
             Intent intent = new Intent(this, WebViewActivity.class);
             intent.putExtra("name",fcr.getName());
             startActivity(intent);

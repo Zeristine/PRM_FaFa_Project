@@ -46,6 +46,7 @@ public class CameraFrontReceiveActivity extends AppCompatActivity {
         moreInfo = findViewById(R.id.btnMoreInfo);
         analyzeFront = findViewById(R.id.btnAnalyzeFront);
         txtName = findViewById(R.id.txtName);
+        analyzeFront.setVisibility(View.GONE);
         txtPercent = findViewById(R.id.txtPercent);
         Intent intent = getIntent();
         Uri imageURI = (Uri) intent.getExtras().get("picUri");
@@ -135,6 +136,7 @@ public class CameraFrontReceiveActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<Result> call, Throwable t) {
                     Toast.makeText(CameraFrontReceiveActivity.this, "Fails", Toast.LENGTH_SHORT).show();
+                    analyzeFront.setVisibility(View.VISIBLE);
                 }
             });
         }
