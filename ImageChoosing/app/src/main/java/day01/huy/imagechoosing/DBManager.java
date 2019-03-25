@@ -44,6 +44,8 @@ public class DBManager extends SQLiteOpenHelper {
                 "\t\"id\"\tINTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
                 "\t\"CeleId\"\tINTEGER NOT NULL,\n" +
                 "\t\"search_date\"\tTEXT NOT NULL,\n" +
+                "\t\"userId\"\tINTEGER,\n" +
+                "\tFOREIGN KEY(\"userId\") REFERENCES \"user_table\"(\"id\"),\n" +
                 "\tFOREIGN KEY(\"CeleId\") REFERENCES \"Cele_table\"(\"id\")\n" +
                 ")";
         db.execSQL(sqlQuery);
@@ -126,7 +128,9 @@ public class DBManager extends SQLiteOpenHelper {
     public List<HistoryDTO> getHistory() {
         List<HistoryDTO> list = new ArrayList<>();
 
-        String query = "select Cele_table.name, history_table.search_date from Cele_table join history_table on Cele_table.id = history_table.CeleId";
+        String query = "select Cele_table.name, history_table.search_date " +
+                "from Cele_table join history_table on Cele_table.id = history_table.CeleId " +
+                "where history_table.userId = " + UserSession.getUserId();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
@@ -154,14 +158,14 @@ public class DBManager extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("CeleId", celeId);
         values.put("search_date", today);
-
+        values.put("userId", UserSession.getUserId());
         boolean result = db.insert(HISTORY_TABLE_NAME, null, values) > 0;
         db.close();
         return result;
     }
 
     //login table
-    public boolean checkLogin(String username, String password) {
+    public int checkLogin(String username, String password) {
 //        String query = "select * from user_table where username = bbb and password = bbb";
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columns = new String[]{"username", "password"};
@@ -169,7 +173,7 @@ public class DBManager extends SQLiteOpenHelper {
         String[] whereArgs = new String[]{username, password};
         Cursor cursor = db.query("user_table", columns, whereClause, whereArgs, null, null, null);
 
-        boolean result = cursor.moveToFirst();
+        int result = cursor.moveToFirst() ? cursor.getInt(0) : -1;
         cursor.close();
         db.close();
         return result;

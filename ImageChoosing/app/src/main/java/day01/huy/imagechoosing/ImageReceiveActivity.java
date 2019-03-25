@@ -54,6 +54,7 @@ import retrofit2.Response;
         imageView.setImageURI(imageURI);
         realPath = ReadPath.getPath(this,imageURI);
         btnAnalyze =findViewById(R.id.btnAnalyze);
+        btnAnalyze.setVisibility(View.GONE);
         btnAnalyze.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,6 +127,7 @@ import retrofit2.Response;
                 @Override
                 public void onFailure(Call<Result> call, Throwable t) {
                     Toast.makeText(ImageReceiveActivity.this, "Fails", Toast.LENGTH_SHORT).show();
+                    btnAnalyze.setVisibility(View.VISIBLE);
                 }
             });
         }
