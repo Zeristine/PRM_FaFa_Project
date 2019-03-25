@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
 
             }
-
+            return;
         }
         if (requestCode == WRITE_EXTERNAL_REQ_CODE) {
 
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "external permission denied", Toast.LENGTH_LONG).show();
 
             }
-
+            return;
         }
     }
 
@@ -102,15 +102,16 @@ public class MainActivity extends AppCompatActivity {
             //Do the check Login here
             //
             DBManager db = new DBManager(this);
-            
-            if(db.checkLogin(username,password)){
+            int result = db.checkLogin(username, password);
+            if(result != -1){
+                UserSession.setUserId(result);
                 Intent intent = new Intent(this, NavigationActivity.class);
                 startActivity(intent);
                 finish();
             }else{
                 Toast.makeText(this, "Wrong username or password!", Toast.LENGTH_SHORT).show();
             }
-            
+
         } else {
             Toast.makeText(this, "Please fill your username and password", Toast.LENGTH_SHORT).show();
         }
