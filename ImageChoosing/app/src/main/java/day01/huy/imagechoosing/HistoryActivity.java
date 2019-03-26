@@ -59,7 +59,7 @@ public class HistoryActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent intent = new Intent(HistoryActivity.this, InfoActivity.class);
-                    TextView name = (TextView) showList.findViewById(android.R.id.text1);
+                    TextView name = (TextView) view.findViewById(android.R.id.text1);
                     intent.putExtra("name",name.getText().toString());
                     startActivity(intent);
                 }

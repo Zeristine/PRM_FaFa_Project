@@ -19,7 +19,8 @@
                 android:layout_height="200sp"
                 android:layout_gravity="center"
                 android:layout_marginTop="20sp"
-                android:id="@+id/celebImage"/>
+                android:id="@+id/celebImage"
+                android:scaleType="fitXY"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

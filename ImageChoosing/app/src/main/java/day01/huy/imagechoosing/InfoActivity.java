@@ -58,7 +58,7 @@ public class InfoActivity extends AppCompatActivity implements InterfaceFetchCel
             dbManager.addHistory(cele);
             //get add to List
             HistoryDTO dto;
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             Date date = new Date();
             String today = simpleDateFormat.format(date);
             dto = new HistoryDTO(name,today);
@@ -113,7 +113,7 @@ public class InfoActivity extends AppCompatActivity implements InterfaceFetchCel
             }
             db.addHistory(cele);
             HistoryDTO dto;
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             Date date = new Date();
             String today = simpleDateFormat.format(date);
             dto = new HistoryDTO(fcr.getName(),today);

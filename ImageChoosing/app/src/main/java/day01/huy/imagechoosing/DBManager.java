@@ -151,7 +151,7 @@ public class DBManager extends SQLiteOpenHelper {
     public boolean addHistory(Cele cele) {
         int celeId = cele.getId();
         //get current date
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Date date = new Date();
         String today = dateFormat.format(date);
         SQLiteDatabase db = this.getWritableDatabase();

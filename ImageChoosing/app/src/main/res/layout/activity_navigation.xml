@@ -82,7 +82,7 @@
         android:layout_marginVertical="5sp"
         android:background="@drawable/shape_button"
         android:onClick="clickToLogout"
-        android:text="Log ouy"
+        android:text="Log out"
         android:textColor="@color/white" />
 
 </LinearLayout>

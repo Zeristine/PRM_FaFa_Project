@@ -32,9 +32,7 @@ public class NavigationActivity extends AppCompatActivity {
         btnHistory = findViewById(R.id.btnHistory);
 
         DBManager db = new DBManager(this);
-        List<HistoryDTO> list = HistoryList.getList();
-        list = db.getHistory();
-        HistoryList.setList(list);
+        HistoryList.setList(db.getHistory());
 
         displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
