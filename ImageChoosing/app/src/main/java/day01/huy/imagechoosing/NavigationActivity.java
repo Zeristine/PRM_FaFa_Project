@@ -68,6 +68,7 @@ public class NavigationActivity extends AppCompatActivity {
     public void clickToLogout(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        UserSession.setUserId(-1);
         startActivity(intent);
     }
 }
