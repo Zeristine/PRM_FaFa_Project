@@ -23,6 +23,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     private ListView showList;
     private TextView emptyAnnounce;
+    private DBManager db = new DBManager(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +33,7 @@ public class HistoryActivity extends AppCompatActivity {
 
 
         //get List and reverse
-        List<HistoryDTO> historyList = HistoryList.getList();
+        List<HistoryDTO> historyList = db.getHistory();
         Collections.reverse(historyList);
 
         List<Map<String,String>> data = new ArrayList<Map<String,String>>();

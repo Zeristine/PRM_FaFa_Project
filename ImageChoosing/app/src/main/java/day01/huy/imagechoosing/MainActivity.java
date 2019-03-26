@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -23,25 +22,21 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imgTitle;
     private EditText txtUsername, txtPassword;
     private DisplayMetrics displayMetrics;
-    private static final int MY_CAMERA_REQUEST_CODE = 100;
-    private static final int WRITE_EXTERNAL_REQ_CODE = 10;
+    private static final int REQUEST_CODE = 100;
     private Button btnToRegister;
+    private final String[] permissions = new String[]{
+            Manifest.permission.CAMERA,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA},
-                    MY_CAMERA_REQUEST_CODE);
+        if (!hasPermissions(permissions)) {
+            ActivityCompat.requestPermissions(this, permissions,
+                    REQUEST_CODE);
         }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    WRITE_EXTERNAL_REQ_CODE);
-        }
-
         imgTitle = findViewById(R.id.imgTitle);
         txtUsername = findViewById(R.id.txtUsername);
         txtPassword = findViewById(R.id.txtPassword);
@@ -64,34 +59,27 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == MY_CAMERA_REQUEST_CODE) {
-
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
-
-            } else {
-
-                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
-
+        if (requestCode == REQUEST_CODE) {
+            for (String permission : permissions) {
+                switch (permission) {
+                    case Manifest.permission.CAMERA:
+                        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                            Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
+                        }
+                        break;
+                    case Manifest.permission.WRITE_EXTERNAL_STORAGE:
+                        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                            Toast.makeText(this, "external permission granted", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(this, "external permission denied", Toast.LENGTH_LONG).show();
+                        }
+                        break;
+                }
             }
-            return;
-        }
-        if (requestCode == WRITE_EXTERNAL_REQ_CODE) {
-
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                Toast.makeText(this, "external permission granted", Toast.LENGTH_LONG).show();
-
-            } else {
-
-                Toast.makeText(this, "external permission denied", Toast.LENGTH_LONG).show();
-
-            }
-            return;
         }
     }
-
 
 
     public void clickToLogIn(View view) {
@@ -103,17 +91,28 @@ public class MainActivity extends AppCompatActivity {
             //
             DBManager db = new DBManager(this);
             int result = db.checkLogin(username, password);
-            if(result != -1){
+            if (result != -1) {
                 UserSession.setUserId(result);
                 Intent intent = new Intent(this, NavigationActivity.class);
                 startActivity(intent);
                 finish();
-            }else{
+            } else {
                 Toast.makeText(this, "Wrong username or password!", Toast.LENGTH_SHORT).show();
             }
 
         } else {
             Toast.makeText(this, "Please fill your username and password", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private boolean hasPermissions(String[] permissions) {
+        if (permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
